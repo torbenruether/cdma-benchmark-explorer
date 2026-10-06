@@ -1,0 +1,10 @@
+name,passed,seconds,message
+positivity_and_physical_support,1,0.0067581,PASS
+simplex_slab_and_idempotence,1,0.0401297,PASS
+simultaneous_total_and_marginals,1,0.020822,PASS
+invalid_auxiliary_inputs,1,0.0142267,PASS
+inconsistent_slab_detection,1,0.0494115,PASS
+ball_projection_stationarity,1,0.0313718,PASS
+exact_null_and_incompatible_measurement,1,0.0443067,PASS
+ill_conditioned_feasible_pocs,1,0.0350793,PASS
+both_pocs_arms_with_active_auxiliary,1,0.0162044,PASS

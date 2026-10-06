@@ -1,0 +1,32 @@
+VERSION 9 -- STUDIED SETTINGS AND REQUIRED CHECKS
+
+Current preflight: PENDING. Record actual new fixture outcomes before launch.
+This report makes no claim that every full-grid case will converge or meet the
+scientific quality targets.
+
+1. Tikhonov uses the scaled adaptive candidate with initial beta 0.001.
+   Retain its declared quadratic objective and strict returned-solution
+   stationarity/duality certificate. The lsqlin arm controls the same objective
+   at the selected parameter.
+2. POCS-CDMA uses the dual minimum-norm candidate on the same measurement
+   bands: warm start 100, PCG 100, Newton 400, wall budget 180 seconds,
+   L-BFGS 0 and polishing 0. Check feasibility and objective convergence
+   independently on the final returned distribution.
+3. TV/TGV ADMM uses relaxation 1.8. Keep the strict optimality, primal/dual
+   residual and complementarity checks. The setting is experimental; an
+   iteration limit is not a successful convergence certificate.
+4. Preserve the eleven main-arm labels, the 27-case plan and identical y/sigma.
+   Lognormal-fit is calculated but excluded from aggregate assessment.
+5. Verify the selected v9 source/output and source archive, 1224 measurement
+   rows, 64 bins/decade, 108 grid bins, 5886 active masses and two workers.
+6. Start with zero v9 results, save each solver locally, and export from that
+   selected run. The previous scheduled automation remains deleted.
+
+Historical v7/v8 and measurement controls remain separate. Old large results
+were superseded in the active export; their requested physical deletion was
+blocked by automatic action review. The fine-forward control input is preserved.
+Preliminary duration estimate: 25-35 hours based on v6, subject to actual solver
+paths and difficult cases. The MATLAB completion popup remains enabled.
+
+Final MATLAB preflight passed2026-10-06 11:43:37. TV factor1.8 applies only to TV; TGV remains1.6.
+Both Tikhonov optimizers require strict feasible-dual-gap certification. No form truth is used to pick parameters.

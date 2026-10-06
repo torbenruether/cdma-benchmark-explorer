@@ -1,0 +1,77 @@
+CDMA PARAMETERSTUDIE v8 -- complete
+38/38 Kontrollen; Hauptbenchmark v6 bleibt pausiert bei83/297.
+Gleiche gespeicherte Messdaten, finales alpha, Rauschgewichte und Nebenbedingungen.
+Truth nur für nachträgliche Fehlermetriken; keine Auswahl anhand der Sollverteilung.
+Laufzeit umfasst Pilotarbeit; ColdTotalSeconds zusätzlich gemeinsame Vorbereitung.
+Ein Zeitversuch pro Einstellung: Zeitunterschiede sind explorativ, kein statistischer Speedup.
+Unbestätigte Eltern-Parameterauswahl bleibt unbestätigt. Fit ausgeschlossen.
+
+Numerisch zertifiziert: 8/38.
+Vollständig validiert: 8/38.
+Alle Genauigkeitsziele UND Validierung: 0/38.
+
+Ausführungsfehler: 0.
+Tikhonov: zusätzlich unabhängige zulässige Dual-Untergrenze und relative Zielfunktionslücke; ursprüngliche KKT unverändert.
+ds00002 Tikhonov beta_1e-2_fixed: solve14.60s +setup1.25s; objective=0 data=0 alpha=0; KKT=0.464, L2=11.18%, targets=0.
+ds00002 Tikhonov beta_1e-3_adaptive: solve14.11s +setup1.25s; objective=0 data=1 alpha=0; KKT=0.0806, L2=11.22%, targets=0.
+ds00002 Tikhonov beta_1e-3_continuation: solve14.74s +setup1.25s; objective=0 data=1 alpha=0; KKT=0.202, L2=11.07%, targets=0.
+ds00002 Tikhonov beta_1e-3_fixed: solve14.27s +setup1.25s; objective=0 data=1 alpha=0; KKT=0.0806, L2=11.22%, targets=0.
+ds00002 Tikhonov beta_1e-4_fixed: solve14.42s +setup1.25s; objective=0 data=1 alpha=0; KKT=0.00377, L2=11.07%, targets=0.
+ds00002 Tikhonov beta_1e-6_fixed: solve15.97s +setup1.25s; objective=0 data=1 alpha=0; KKT=0.00601, L2=10.29%, targets=0.
+ds00002 Tikhonov beta_5e-2_fixed: solve15.41s +setup1.25s; objective=0 data=1 alpha=0; KKT=0.00897, L2=11.18%, targets=0.
+ds00002 TV-ADMM relax_1.2_balance_10: solve20.14s +setup2.44s; objective=0 data=0 alpha=0; KKT=3e+03, L2=17.34%, targets=0.
+ds00002 TV-ADMM relax_1.6_balance_10: solve20.04s +setup2.44s; objective=0 data=0 alpha=0; KKT=4.36e+03, L2=18.77%, targets=0.
+ds00002 TV-ADMM relax_1.6_balance_20: solve20.12s +setup2.44s; objective=0 data=0 alpha=0; KKT=2.36e+03, L2=18.77%, targets=0.
+ds00002 TV-ADMM relax_1.6_balance_5: solve20.06s +setup2.44s; objective=0 data=0 alpha=0; KKT=3.53e+03, L2=18.77%, targets=0.
+ds00002 TV-ADMM relax_1.8_balance_10: solve20.02s +setup2.44s; objective=0 data=0 alpha=0; KKT=0.91, L2=19.44%, targets=0.
+ds00002 POCS warm0_pcg100: solve40.23s +setup1.24s; objective=0 data=0 alpha=1; KKT=0.00833, L2=51.02%, targets=0.
+ds00002 POCS warm100_pcg100: solve40.37s +setup1.24s; objective=0 data=0 alpha=1; KKT=0.00878, L2=48.68%, targets=0.
+ds00002 POCS warm100_pcg350: solve41.37s +setup1.24s; objective=0 data=0 alpha=1; KKT=0.00871, L2=48.68%, targets=0.
+ds00002 POCS warm400_pcg100: solve40.28s +setup1.24s; objective=0 data=0 alpha=1; KKT=0.00619, L2=45.05%, targets=0.
+ds00002 TV-PD cold: solve37.60s +setup1.29s; objective=0 data=1 alpha=0; KKT=2.16e-05, L2=262.57%, targets=0.
+ds00002 TV-PD primal_dual: solve38.59s +setup1.29s; objective=0 data=1 alpha=0; KKT=1.07e-05, L2=262.38%, targets=0.
+ds00002 TV-PD primal_only: solve38.18s +setup1.29s; objective=0 data=1 alpha=0; KKT=3.32e-05, L2=261.51%, targets=0.
+ds00005 Tikhonov beta_1e-2_fixed: solve3.56s +setup1.41s; objective=1 data=1 alpha=1; KKT=5.37e-13, L2=18.72%, targets=0.
+ds00005 Tikhonov beta_1e-3_adaptive: solve2.65s +setup1.41s; objective=1 data=1 alpha=1; KKT=2.42e-12, L2=18.72%, targets=0.
+ds00005 Tikhonov beta_1e-3_continuation: solve3.87s +setup1.41s; objective=0 data=1 alpha=1; KKT=0.00344, L2=18.72%, targets=0.
+ds00005 Tikhonov beta_1e-3_fixed: solve3.92s +setup1.41s; objective=1 data=1 alpha=1; KKT=2.43e-12, L2=18.72%, targets=0.
+ds00005 Tikhonov beta_1e-4_fixed: solve4.08s +setup1.41s; objective=1 data=1 alpha=1; KKT=6.13e-13, L2=18.72%, targets=0.
+ds00005 Tikhonov beta_1e-6_fixed: solve4.71s +setup1.41s; objective=1 data=1 alpha=1; KKT=6.14e-13, L2=18.72%, targets=0.
+ds00005 Tikhonov beta_5e-2_fixed: solve3.33s +setup1.41s; objective=1 data=1 alpha=1; KKT=1.14e-12, L2=18.72%, targets=0.
+ds00005 TV-ADMM relax_1.2_balance_10: solve20.11s +setup2.42s; objective=0 data=1 alpha=0; KKT=0.000248, L2=24.23%, targets=0.
+ds00005 TV-ADMM relax_1.6_balance_10: solve20.05s +setup2.42s; objective=0 data=1 alpha=0; KKT=0.000105, L2=24.28%, targets=0.
+ds00005 TV-ADMM relax_1.6_balance_20: solve20.09s +setup2.42s; objective=0 data=1 alpha=0; KKT=7.82e-05, L2=24.24%, targets=0.
+ds00005 TV-ADMM relax_1.6_balance_5: solve20.07s +setup2.42s; objective=0 data=1 alpha=0; KKT=8.93e-05, L2=24.15%, targets=0.
+ds00005 TV-ADMM relax_1.8_balance_10: solve20.14s +setup2.42s; objective=0 data=1 alpha=0; KKT=5.89e-05, L2=24.32%, targets=0.
+ds00005 POCS warm0_pcg100: solve40.21s +setup1.25s; objective=0 data=0 alpha=1; KKT=0.00603, L2=68.61%, targets=0.
+ds00005 POCS warm100_pcg100: solve28.56s +setup1.25s; objective=1 data=1 alpha=1; KKT=8.04e-10, L2=69.57%, targets=0.
+ds00005 POCS warm100_pcg350: solve37.45s +setup1.25s; objective=1 data=1 alpha=1; KKT=3.58e-15, L2=69.57%, targets=0.
+ds00005 POCS warm400_pcg100: solve40.24s +setup1.25s; objective=0 data=0 alpha=1; KKT=0.00359, L2=70.80%, targets=0.
+ds00005 TV-PD cold: solve37.54s +setup1.26s; objective=0 data=1 alpha=0; KKT=1.41e-06, L2=24.39%, targets=0.
+ds00005 TV-PD primal_dual: solve37.94s +setup1.26s; objective=0 data=1 alpha=0; KKT=1.2e-06, L2=24.39%, targets=0.
+ds00005 TV-PD primal_only: solve37.24s +setup1.26s; objective=0 data=1 alpha=0; KKT=1.02e-06, L2=24.39%, targets=0.
+
+ZUSÄTZLICHE ZEITWIEDERHOLUNGEN: 9 Läufe, je3 pro Einstellung, rotierte Reihenfolge.
+beta_5e-2_fixed: Median3.327s, Bereich3.271..3.375s, validiert3/3.
+beta_1e-3_fixed: Median3.952s, Bereich3.910..3.964s, validiert3/3.
+beta_1e-3_adaptive: Median2.672s, Bereich2.658..2.731s, validiert3/3.
+
+EMPFEHLUNG / ERGEBNISSE
+Tikhonov: beta1e-3 with adaptive LSQR1e-7..1e-13, median2.672s. Solver-time reduction19.7% vsbeta.05 baseline and32.4% vsfixedbeta1e-3, samecertified distribution. Shared setup adds1.30s. Evidence only for this mixed-noise case.
+POCS: mixed-noise control favors warmup100/PCG100 (28.56s) over PCG350 (37.45s), same69.57% L2. No pure-relative setting certified at40s.
+TV-ADMM: relaxation1.8 improves mixed KKT from1.06e-4 to5.89e-5 at20s; no tested ADMM setting is certified. Treat as experimental, not a quality winner.
+TV-PD: primal-only/full-dual continuation brings no certified advantage in the paired40s/8000-iteration controls. Same-alpha path already retains dual state.
+Tikhonov alpha-continuation: no advantage at equal20-step budget; keep out of recommendations. Hard reference remains uncertified even after one target correction.
+A12-decade reference exposed3.211% wrong-target objective error despite tiny normalizedKKT. Additional strict feasible-dual-gap audit rejects it; no tolerance is relaxed.
+All47 actual controls/repeats miss at least one joint scientific target. Mixed Tikhonov has18.72% 2D error but GSD errors5.86%/5.34% exceed5%.
+
+INTERPRETATION
+Compare time-to-certificate only when the same final objective is independently certified.
+Lower error of an uncertified early iterate can reflect accidental early stopping.
+Budget failure is not an infeasibility proof. No final tolerance or likelihood weight is relaxed.
+Reusing a full TV dual state is already present in the main parameter path, not a new regularizer.
+No prior-anisotropy or GP length-scale selection is performed in this numerical-settings study.
+SOURCE: https://www.mathworks.com/help/matlab/ref/lsqr.html
+SOURCE: https://web.stanford.edu/~boyd/papers/admm_distr_stats.html
+SOURCE: https://arxiv.org/abs/1608.08883
+START: addpath('C:\Users\torbe\Documents\MATLAB\CDMA_benchmark\POCS_2D_Benchmark\extended_benchmark\solver_parameter_study_v8'); run_v8_parameter_study;

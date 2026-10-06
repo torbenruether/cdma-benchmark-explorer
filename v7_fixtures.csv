@@ -1,0 +1,6 @@
+family,passed,seconds,message
+pocs,1,1.4246453,All independent-reference fixtures passed
+smooth,1,0.198176,All independent-reference fixtures passed
+strong,1,0.1209768,All independent-reference fixtures passed
+tv,1,0.3660113,All independent-reference fixtures passed
+dispatch,1,0.2780622,All independent-reference fixtures passed

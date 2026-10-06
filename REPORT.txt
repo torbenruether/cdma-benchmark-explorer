@@ -1,0 +1,71 @@
+CDMA BENCHMARK VERSION 9 -- CURRENT RUN RECORD
+Version: 9.0-best-settings-1224
+Preflight status: PENDING. The final v9 fixture checks have not yet been recorded
+as passed in this report. Start the complete benchmark after they pass.
+
+MAIN DESIGN
+27 datasets: three monomodes, each with relative and absolute Gaussian
+standard deviations of 0, 3 and 5 percent. GMD(dm,dst): 250/50, 315/60,
+400/75 nm; GSD 1.30 on both axes; rho 0; N 100000 per cm3.
+11 declared arms, 297 solver calls, two MATLAB workers:
+POCS-PSS; Twomey-Markowski; Tikhonov; Tikhonov-lsqlin; Lognormal-fit;
+TGV2-ADMM; TV-2D; Maximum Entropy; Bayesian GP-MAP; Huber-TV; POCS-CDMA.
+Lognormal-fit is computed and excluded from the summarized scientific assessment.
+Tikhonov-lsqlin controls the optimizer of the same selected Tikhonov objective.
+
+1224 stationary measurements: 24 x 48 positive voltage/rotation combinations,
+24 settings at zero rotation, and 48 settings at zero voltage.
+108 x 108 reconstruction cells; 64 bins per decade; 5886 physical bin masses.
+The same forward/inverse grid makes this an idealized consistency benchmark.
+The existing finer forward input remains available for separate controls.
+No scan timing, transport-delay or CPC count model is added.
+
+NOISE AND SCIENTIFIC POLICY
+Signed additive Gaussian measurements are retained without clipping at zero.
+Absolute sigma is referenced to the clean signal peak of the 1224-row operator.
+All arms use the same stored y and sigma; observed-signal proxy weights keep
+Gaussian/chi-square calibration approximate. Seed policy is unchanged.
+Nonnegative reconstruction and dst <= dm remain active. Independent total and
+marginal measurement bands remain empty; truth supplies no extra constraints.
+Objective convergence, data compatibility, parameter selection and constraint
+validity remain separate. All quality targets must hold together: N, both GMD
+and both GSD errors <= 5 percent, and distribution L2 error <= 20 percent.
+Numerical validation does not imply scientific target success.
+
+STUDIED NUMERICAL SETTINGS
+Tikhonov: scaled adaptive solver, initial beta 0.001, with the strict returned-
+solution optimality and duality certificate. Objective and parameter policy stay.
+POCS-CDMA: dual minimum-norm formulation for the same bands, 100 warm-start
+steps, PCG limit 100, Newton limit 400, wall budget 180 seconds; L-BFGS and
+post-polishing disabled. Band feasibility is distinct from optimum certification.
+TV-2D/TGV2-ADMM: ADMM relaxation 1.8 with the strict certificate retained.
+This TV/TGV setting is experimental and may fail its finite iteration budget.
+Other arms retain their declared methods. The exact labels identify the main
+arms; experimental control names are not added as duplicate benchmark arms.
+The bounded prior studies do not establish universal superiority or all-target
+accuracy on these new 27 cases.
+
+EXECUTION AND PREVIOUS RESULTS
+Fresh selected output: solver_revision_v9/outputs/factorial27_1224.
+The prior MATLAB parent, workers and launcher were stopped before preparation.
+The requested deletion of five old large-output directories was blocked by
+automatic action review. Those physical files remain inactive and are superseded
+in the active benchmark export. No old result is resumed or imported.
+The historical v7/v8 small controls and measurement studies remain separate.
+The original mono_first forward_fine.mat input remains preserved.
+Source checksums and the new preflight pass record are to be completed before
+launch. The active source archive must match the selected v9 source files.
+Results are checkpointed locally after each solver. Run-scoped Python exports
+refresh the local website; the prior scheduled automation remains deleted.
+Completion notification remains enabled.
+
+PRELIMINARY TIME ESTIMATE
+Approximately 25-35 hours, based on the prior v6 run. This is an estimate;
+parameter paths, noise levels and difficult subproblems may alter the runtime.
+
+ACTUAL PREFLIGHT COMPLETE: 2026-10-06 11:43:37 MESZ, MATLAB R2021a.
+Final protocol: preflight_v9_checked.log; V9_PREFLIGHT_PASS.json passed=true.
+Tikhonov-lsqlin additionally requires the same strict feasible-dual gap as the main Tikhonov arm.
+An unreachable-discrepancy dispatch fixture selected alpha~3e10; identical numerical optima yielded a conservative uncertified dual bound for lsqlin. Its diagnostic/log are retained. A reachable moderate-crossing fixture passed independently; no tolerance was relaxed.
+Limited fine-forward audit: 15 settings, 128 versus64 bins/decade; relative signal differences0.08076..0.09461 percent. This is a model check, not a full fine-grid reconstruction benchmark.
+Sources frozen for new27x11 production run. Existing old large output payloads physically retained due automatic approval rejection of deletion, superseded in active website.

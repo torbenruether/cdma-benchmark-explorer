@@ -1,0 +1,62 @@
+V7 EXPERIMENTAL SOLVER STUDY
+2026-10-06T07:50:59+02:00
+Fünf zusätzliche Solverarme in eigener Revision v7. Tikhonov-Scaled, Tikhonov-LSQR-StrongPrecond, POCS-CDMA-Dual und TV-PD optimieren dieselben bisherigen Zielfunktionen. TV-Morozov-PD minimiert TV unter einer direkten gewichteten Messfehlergrenze und ist eine eigene Formulierung. Verbesserungen sind experimentell und werden nicht vorab als Erfolg gewertet. Der Hauptbenchmark v6 bleibt pausiert bei 83/297.
+
+Independent fixture status: pocs: bestanden; smooth: bestanden; strong: bestanden; tv: bestanden; dispatch: bestanden
+Saved controls: 10 / 10 (two stored datasets x five arms).
+Not the complete 27-dataset benchmark; no automatic resume.
+Controls use identical stored y, sigma, B, physical mask and regularization operators.
+Optimizer comparisons use the same measurement-only alpha, initially x=0.
+Parent times include parameter selection, fixed-alpha controls do not: no speedup ratio inferred.
+Scientific truth is consulted only after a returned solution, for error metrics.
+Auxiliary measurements are optional; absent real controls, never taken from truth.
+Independent optimum, data compatibility, parameter validity and quality targets remain separate.
+
+ds00002 POCS-CDMA-Dual: 72.7s; objective=0 data=0 parameter=1 validated=0 targets=0; L2=48.66 % (parent=—); KKT=0.00881 gap=— budgetStopped=False.
+ds00002 Tikhonov-LSQR-StrongPrecond: 16.9s; objective=0 data=1 parameter=0 validated=0 targets=0; L2=10.29 % (parent=11.16 %); KKT=0.00601 gap=— budgetStopped=False.
+ds00002 Tikhonov-Scaled: 14.8s; objective=0 data=1 parameter=0 validated=0 targets=0; L2=11.18 % (parent=11.16 %); KKT=0.00897 gap=— budgetStopped=False.
+ds00002 TV-Morozov-PD: 29.5s; objective=0 data=0 parameter=1 validated=0 targets=0; L2=26.75 % (parent=—); KKT=0.00298 gap=— budgetStopped=False.
+ds00002 TV-PD: 28s; objective=0 data=0 parameter=0 validated=0 targets=0; L2=255.81 % (parent=73.04 %); KKT=1.38e-05 gap=0.301 budgetStopped=False.
+ds00005 POCS-CDMA-Dual: 32.5s; objective=1 data=1 parameter=1 validated=1 targets=0; L2=69.57 % (parent=69.56 %); KKT=8.04e-10 gap=4.6e-11 budgetStopped=False.
+ds00005 Tikhonov-LSQR-StrongPrecond: 3.98s; objective=1 data=1 parameter=1 validated=1 targets=0; L2=18.72 % (parent=18.72 %); KKT=7.55e-14 gap=— budgetStopped=False.
+ds00005 Tikhonov-Scaled: 3.29s; objective=1 data=1 parameter=1 validated=1 targets=0; L2=18.72 % (parent=18.72 %); KKT=1.4e-13 gap=— budgetStopped=False.
+ds00005 TV-Morozov-PD: 28.5s; objective=0 data=0 parameter=1 validated=0 targets=0; L2=50.23 % (parent=—); KKT=0.00594 gap=— budgetStopped=False.
+ds00005 TV-PD: 28.5s; objective=0 data=1 parameter=0 validated=0 targets=0; L2=24.39 % (parent=24.39 %); KKT=1.1e-06 gap=0.000174 budgetStopped=False.
+
+LONGER TV CONTROLS (not mixed into primary table)
+Max25000 iterations /120s; Morozov starts from stored measurement-only Tikhonov reconstruction.
+Its prior warm-start computation time is excluded. Full primal-dual state is retained.
+ds00005_TV_Morozov_PD: optimum=0 seconds=120 gap=— KKT=0.00107 chi2=1.12 L2=37.65 %.
+ds00005_TV_PD: optimum=1 seconds=100 gap=9.31e-07 KKT=1.78e-07 chi2=0.973 L2=24.39 %.
+
+LONGER STRONG-PRECONDITIONED TIKHONOV CONTROL
+Same ds2 / alpha; stored short control as warm start, no oracle.
+Max40 outer /1200 inner LSQR /120s; warm-start time listed separately.
+objective=0 KKT=0.0015 L2=11.00 % time=96.7s plus warm-start=16.9s; parent parameter valid=0.
+
+INTERPRETATION / RECOMMENDATION
+Tikhonov-Scaled is a promising numerical core for mixed noise: same solution, independently certified.
+Stronger LSQR preconditioning improves the relative-only reconstruction in this control, but remains uncertified.
+POCS-CDMA-Dual certifies the mixed case at the same minimum-norm solution: optimizer improvement, no accuracy improvement.
+The broad POCS-CDMA solution reflects its bin-mass norm prior and simultaneous point bands; it misses the shape targets.
+TV-PD needs more than the short budget for a strict feasible-dual gap. Independent parameter selection still needs verification.
+No new arm in the primary controls meets all numerical AND accuracy targets. No universal best solver is established.
+
+LIMITS
+Finite caps: failure is not proof of infeasibility and not scientific success.
+Two representative stored controls with one noise realization; no robustness claim for all 27 cases.
+No relaxed noise weights, physical bounds, or stopping tolerance to force a passing result.
+TV-Morozov is a different discrepancy formulation; no alpha sweep is claimed.
+Numerical convergence does not guarantee an accurate reconstruction in an underdetermined inverse problem.
+Lognormal-fit is excluded from evaluation and remains registered in the full configuration.
+Morozov budget validity is audited independently of optimisation; exact declared ball is used for its data check.
+Original metadata before that correction is archived in outputs/solver_controls/metadata_before_audit.
+The optional POCS fmincon fallback was disabled in the real controls; no performance claim for that branch.
+START: addpath('C:\Users\torbe\Documents\MATLAB\CDMA_benchmark\POCS_2D_Benchmark\extended_benchmark\solver_revision_v7'); run_v7_tests; run_v7_solver_controls;
+Do not call the inherited v6 full-run launcher from this exploratory directory.
+
+PRIMARY/OFFICIAL SOURCES
+LSQR und Vorkonditionierung: https://www.mathworks.com/help/matlab/ref/lsqr.html
+Dykstra, ADMM und Dual-Koordinatenverfahren: https://arxiv.org/abs/1705.04768
+Primal-Dual mit Liniensuche: https://arxiv.org/abs/1608.08883
+TV mit expliziter Messfehlergrenze: https://arxiv.org/abs/1111.5632
