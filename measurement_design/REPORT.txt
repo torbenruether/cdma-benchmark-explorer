@@ -1,0 +1,87 @@
+CDMA: EINFLUSS DER MESSPUNKTZAHL
+Ausführungsstand: completed; 57 gespeicherte Fits. Studie getrennt vom laufenden 27er-Benchmark.
+Verbindliche Arbeitsziele: |N-, GMD_dm-, GMD_dst-, GSD_dm-, GSD_dst-Fehler| jeweils <=5%; 2D-L2<=20%.
+Alle Ziele und Solver-/Daten-/Parameterprüfungen müssen gleichzeitig erfüllt sein.
+Lognormal-Fit läuft im Hauptbenchmark weiter, ist aus dieser Beurteilung ausgeschlossen.
+
+AUSGEFÜHRTER VERGLEICH
+Drei Monomoden: GMD(dm,dst)=(250,50),(315,60),(400,75) nm; GSD=1.30, N=1e5 #/cm³.
+64 Bins/Dekade je Achse, 108x108 Zellen, dst<=dm und dreieckige Diagonalzellen: 5886 Binmassen.
+Kernstudie bei 3% relativem + 3% peakbezogenem absolutem Gaussian-sigma.
+Kleinere Pläne behalten exakt die entsprechenden y/sigma-Werte der 624er-Messung.
+Neue 1224er-Messung benutzt dieselbe absolute sigma-Kalibrierung vom 624er-Peak; Seed fest.
+Ein Rauschstart je Form. Identische Vorwärts-/Inversionsdiskretisierung: idealisierter Konsistenztest.
+Vergleich mit gleicher Unsicherheit je Einstellung; keine Behauptung gleicher Gesamtmesszeit.
+Parameterwahl nutzt die Messdaten; Sollverteilung ausschließlich zur nachfolgenden Güteprüfung.
+GP alle Messpläne; Twomey-Markowski bei35/80/168/288/624/1224/2400 Punkten, jeweils3 Formen.
+Tikhonov zusätzlich bei624 Punkten. Die Rauschstärke bleibt hier bei3/3%.
+Der separate 27er-Hauptlauf vergleicht weiterhin die ursprünglichen Rauschstufen.
+
+Raster | Verfahren | rel/abs sigma | Punkte | Fälle | validiert | alle Ziele | L2-Bereich | größter Momentfehler
+uniform_24x24 | Bayesian GP-MAP | 3/3% | 624 | 3/3 | 3 | 0 | 20.5..23.2% | 19.2%
+voltage_only | Bayesian GP-MAP | 3/3% | 24 | 3/3 | 1 | 0 | 78.6..83.5% | 80.0%
+uniform_5x5 | Bayesian GP-MAP | 3/3% | 35 | 3/3 | 0 | 0 | 47.2..67.3% | 61.8%
+uniform_8x8 | Bayesian GP-MAP | 3/3% | 80 | 3/3 | 1 | 0 | 31.6..50.3% | 36.9%
+uniform_12x12 | Bayesian GP-MAP | 3/3% | 168 | 3/3 | 0 | 0 | 27.4..31.5% | 28.2%
+qr168 | Bayesian GP-MAP | 3/3% | 168 | 3/3 | 1 | 0 | 26.7..30.4% | 29.2%
+uniform_12x24 | Bayesian GP-MAP | 3/3% | 324 | 3/3 | 1 | 0 | 24.1..25.5% | 22.4%
+new_24x48 | Bayesian GP-MAP | 3/3% | 1224 | 3/3 | 1 | 0 | 13.8..17.4% | 17.2%
+new_48x48 | Bayesian GP-MAP | 3/3% | 2400 | 3/3 | 2 | 0 | 15.0..16.8% | 16.5%
+uniform_16x16 | Bayesian GP-MAP | 3/3% | 288 | 3/3 | 1 | 0 | 19.5..27.6% | 20.7%
+uniform_24x12 | Bayesian GP-MAP | 3/3% | 324 | 3/3 | 2 | 0 | 22.2..26.3% | 23.0%
+uniform_24x24 | Tikhonov | 3/3% | 624 | 3/3 | 3 | 0 | 37.4..43.4% | 29.0%
+uniform_5x5 | Twomey-Markowski | 3/3% | 35 | 3/3 | 3 | 0 | 116472.4..390092.8% | 15907.9%
+uniform_8x8 | Twomey-Markowski | 3/3% | 80 | 3/3 | 3 | 0 | 111.7..132.2% | 117.9%
+uniform_12x12 | Twomey-Markowski | 3/3% | 168 | 3/3 | 3 | 0 | 92.7..95.0% | 89.9%
+uniform_16x16 | Twomey-Markowski | 3/3% | 288 | 3/3 | 3 | 0 | 78.7..91.2% | 75.8%
+uniform_24x24 | Twomey-Markowski | 3/3% | 624 | 3/3 | 3 | 0 | 61.2..70.2% | 46.9%
+new_24x48 | Twomey-Markowski | 3/3% | 1224 | 3/3 | 3 | 0 | 59.6..64.4% | 49.7%
+new_48x48 | Twomey-Markowski | 3/3% | 2400 | 3/3 | 3 | 0 | 57.7..61.0% | 41.0%
+
+BEURTEILUNG DER BENÖTIGTEN MESSPUNKTZAHL
+Bis zum derzeit größten geprüften Plan ist keine ausreichende Mindestzahl nachgewiesen.
+Kein vollständiger Plan erfüllt für alle drei Formen gleichzeitig sämtliche Ziele und Zertifikate.
+Nicht validierte Ergebnisse beweisen keine physikalische Untergrenze: Solver- oder Parameterwahlfehler
+können beteiligt sein. Fehler in GSD trotz gutem 2D-L2 zeigen, warum alle Ziele gebraucht werden.
+Eine universelle Zahl für alle Solver, Rauschstärken, Bi-/Trimoden oder unbekannte Aerosole folgt daraus nicht.
+Die 624er-Matrix hat Rang621 (drei Nullzeilen). Für jede beliebige freie positive 5886-bin-Verteilung
+wären mindestens5886 unabhängige Gleichungen für Eindeutigkeit nötig; auch das garantiert keine Stabilität.
+Regularisierung kann mit weniger Messwerten arbeiten, dann beeinflussen die Annahmen das Ergebnis.
+QR168 verbessert die ungewichtete Kondition, liefert hier aber nicht automatisch bessere Rekonstruktionen.
+Beim35er-Raster erreicht Twomey sein Messraum-Abbruchkriterium, rekonstruiert jedoch6.4..16.0 Millionen
+#/cm³ statt100000. Das sind ausdrücklich gescheiterte Rekonstruktionen trotz erfülltem numerischem Stopp.
+Die Grafik erhält diese Ausreißer und zeigt Twomey-y-Achsen logarithmisch.
+
+RAUSCHMODELL UND GRENZEN
+Mehr Punkte bei fester Gesamtmesszeit bedeuten weniger Counts pro Punkt; die Studie prüft diesen Trade-off nicht.
+Der aktuelle absolute Fehler ist iidGaussian-sigma, kein gemeinsamer statischer Kalibrierbias.
+Negative synthetische Werte werden im Hauptvergleich bei0 gekappt. Bei leerem Signal entsteht dadurch
+ein Mittelwertsigma/sqrt(2pi), bei sigma425#/cm³ ungefähr170#/cm³. Mehr Punkte beseitigen diesen Mittelwert nicht.
+Die nach Nutzerkorrektur gestoppte Raw-Gaussian-Kontrolle ist archiviert und nicht Teil dieser Beurteilung.
+
+NÄCHSTER BEGRÜNDETER SCHRITT
+Die Messpunktzahl bei unveränderter Rekonstruktionsauflösung schrittweise erhöhen und alle Ziele prüfen.
+Erst ein vollständig validierter Treffer für alle drei Formen begründet einen erfolgreichen getesteten Plan.
+Eine robustere Mindestzahl benötigt anschließend mehrere unabhängige Rauschstarts und weitere Verteilungen.
+Unabhängig gemessene N-/Randverteilungsbedingungen sind nutzbar, mit ihrer Unsicherheit.
+Keine Beschneidung der Rekonstruktion um die bekannte Sollmode und keine Sollmomente als Nebenbedingung.
+
+DATEIEN UND REPRODUKTION
+MD_EMPIRICAL_ACTIVE.json -> tatsächlicher Ergebnisordner mit results.csv/MAT und einzelnen Lösungen.
+Start-MDEmpirical.ps1 und md_empirical.m führen die isolierte Messplanstudie aus; bestehende Checkpoints
+werden weiterverwendet. Den laufenden Hauptbenchmark nicht doppelt starten.
+TAIL_AUDIT.txt erklärt beobachtete Breitenfehler. validate/independent_metrics JSON prüfen
+Zielzertifikate, Quellhashes, Achsen, Normierung und Momentmaße.
+COUNT_SCALING_AUDIT.txt bestätigt die konsistente Skalierung bei624/1224/2400 Messwerten.
+
+PRIMÄRQUELLEN
+CDMA-Flugbahn/Relaxationszeit:
+https://ar.copernicus.org/articles/3/65/2025/
+Rangberechnung/Definition:
+https://www.mathworks.com/help/matlab/ref/rank.html
+Die Rang-/Mindestzahlfolgerung und Rekonstruktionsvergleiche sind eigene Analysen.
+
+ARCHIV
+DYNAMIC_REPORT.txt, REPORT_50HZ.txt, DELAY_AUDIT.txt und DATA_REQUIREMENTS.txt bewahren die bereits
+abgeschlossenen früheren Scan-/Delay-Prüfungen. Sie werden nach Nutzerkorrektur nicht weiterverfolgt.
+Die Kalibrierfrage zum Delay ist für die aktuelle stationäre Messpunktstudie nicht mehr erforderlich.
