@@ -1,0 +1,233 @@
+MESSDATENBEDARF UND SPANNUNGSSCAN DER 2D-CDMA-INVERSION
+Stand: 2026-10-05. Lesende Theorie-/Quellenpruefung; laufender MATLAB-Lauf und
+eingefrorene Solverquellen wurden nicht geaendert. Numerische Designstudie wird
+separat ausgefuehrt. Alle nachstehenden Designempfehlungen sind Vorschlaege,
+keine experimentell validierten Mindestzahlen.
+
+1. Was hier mit Grunddaten gemeint ist
+
+Die Solver brauchen keine Trainingsdatenbank. Fuer eine einzelne unbekannte
+Verteilung brauchen sie den kalibrierten Kernel, gemessene Konzentrationen
+mit Kontrollwerten (U, Omega), Unsicherheiten und gegebenenfalls tatsaechlich
+unabhaengige Zusatzmessungen. Die 27 synthetischen Benchmark-Datensaetze sind
+27 getrennte Rueckrechnungen und nicht gemeinsam 27-mal mehr Information ueber
+eine einzelne Verteilung. Zusaetzlich zu der Zahl verschiedener Einstellungen
+ist die Zahl gezaehlter Partikel je Einstellung entscheidend.
+
+Gegenwaertig: 24 positive Spannungen plus U=0 und 24 positive Drehzahlen plus
+Omega=0. (25*25)-1 = 624 Zeilen; die stationaere U=Omega=0-Zeile ist im idealen
+Kernel Null und wird ausgelassen. Physikalischer Traeger dst<=dm, 108*108 Bins
+mit 64 Bins/Dekade und dreieckigen Diagonalzellen: 108*109/2=5886 Unbekannte.
+Damit ist rank(A)<=624, und der Nullraum hat mindestens 5262 Dimensionen.
+Diese Aussage ist reine lineare Algebra, unabhaengig von Solverqualitaet.
+
+Mehr repraesentierte Bins bedeuten keine entsprechend hohe Messaufloesung.
+Eine garantiert eindeutige Rueckrechnung jeder beliebigen inneren positiven
+5886-dimensionalen Verteilung ohne Regularisierungsprior erfordert mindestens
+5886 linear unabhaengige Messgleichungen. Das ist notwendig, nicht hinreichend
+fuer eine stabile Inversion. Bei sparsamen Randloesungen kann Nichtnegativitaet
+schon mit weniger Daten Eindeutigkeit bewirken; die pauschale Untergrenze gilt
+daher fuer beliebige freie Verteilungen, nicht fuer jede spezielle Verteilung.
+Ein ausgeglichener Scan mit 76 positiven Stufen je Steuerachse plus Null haette
+5928 Messwerte und erfuellte lediglich diese Zaehlschranke. Er wird damit NICHT
+als sinnvoller oder erforderlicher Praxisplan empfohlen.
+
+Mit Glattheit, TV, GP-Prior und Maskierung lassen sich weniger Daten verwenden;
+deren Ergebnis bleibt von Annahmen abhaengig. Vollstaendiger numerischer Rang
+und Zahl der ueber dem Rauschen erkennbaren Verteilungsrichtungen unterscheiden
+sich. Ein Standard-rank-Toleranzwert auf Maschinengenauigkeitsniveau ist kein
+Nachweis physikalischer Aufloesung. Die relevante Analyse nutzt einen nach dem
+Rauschmodell gewichteten Kernel bzw. die volle Kovarianz bei Korrelationen,
+ein angegebenes Amplitudenmass und eine Sensitivitaets-/Regularisierungsanalyse.
+Ein reiner s/s_max-Schwellwert ist nur Spektrumsdiagnostik; ohne Amplituden-/
+Rauschskala liefert er keine absolute Zahl identifizierbarer Parameter.
+
+2. Was ein Spannungsscan beiträgt
+
+U-Variation liefert neue elektrische Selektion statt Wiederholungen derselben
+Einstellung. Bei Omega=0 misst man die Mobilitaets-/ladungskorrigierte dm-
+Randverteilung. Die Verteilung ueber dst und ihre Korrelation mit dm bleiben
+damit unbeobachtet. Ein U-Scan bei einem festen Omega>0 enthaelt gekoppelte
+Information ueber Mobilitaet und Relaxationszeit. Man darf ihn deshalb nicht
+pauschal als voellig ohne 2D-Information bezeichnen. Er liefert aber nur eine
+Scan-Familie; bei den endlichen untersuchten Scans bleiben Rang und Abdeckung
+fuer eine freie 2D-Verteilung begrenzt. Mehrere gut gewaehlte Omega liefern
+unterschiedliche Sensitivitaetsrichtungen und sind die sinnvolle Grundlage
+einer robusten, nichtparametrischen 2D-Rueckrechnung.
+
+U=0, mehrere Omega: AAC-artige Relaxationszeitmessung. Im tatsaechlichen Kernel
+tau=rho_P*dst^2*Cc(dm)/(18*eta). Bei unabhaengigem dm und dst ist das deshalb
+keine reine dst-Randverteilung. Eine daraus konstruierte dst-Randbedingung muss
+die dm-Kopplung korrekt beruecksichtigen. Zwei perfekt bekannte Randverteilungen
+legen die gemeinsame Verteilung bzw. Korrelation ohnehin nicht eindeutig fest.
+Bei 108 Bins je Achse liefern beide Randsummen zusammen hoechstens 215
+unabhaengige Gleichungen; die Gesamtsumme steckt dann schon darin.
+
+Quasistatische feinere U-Raster verbessern die Abdeckung, aber benachbarte
+Kernelzeilen koennen stark redundant sein. Ein kontinuierlicher U-Scan kann
+vor allem die vielen Einstell-/Wartezeiten sparen und mehr sinnvolle Daten in
+gleicher Zeit liefern. Er aendert nicht von sich aus die Zahl physikalisch
+aufloesbarer Freiheitsgrade. Wiederholungen verbessern unabhaengiges Rauschen,
+aber nicht den geometrischen Rang. Gemeinsamer Offset, Kalibrierbias oder
+Transferfunktionsfehler verschwinden nicht durch mehr Wiederholungen.
+
+3. Ein schneller SMPS-Scan braucht hier ein dynamisches Modell
+
+Der bestehende cdma_kernel.m berechnet stationaere Spannung und Drehzahl.
+Aus den dort hinterlegten Geometrie-/Stromwerten ergibt sich eine ideale
+Plug-flow-Verweilzeit T=17.2671483 s. Die 24 positiven Stufen entsprechen
+0.5725 bis 632.0362 V und 62.7744 bis 1351.8914 rpm. Ein 30-s-Scan ueber diesen
+Spannungsbereich aendert die Spannung waehrend einer Partikelpassage stark.
+Die stationaere Matrix darf deshalb nicht unveraendert auf schnelle Zeitbins
+angewendet werden. Eine quasistatische Bedingung waere
+abs(d ln(U)/dt)*T viel kleiner als die Breite der Transferfunktion in ln(U).
+Eine konkrete Grenzrate muss aus der kalibrierten Transferfunktion kommen.
+
+Eigene Herleitung aus den Gleichungen des vorhandenen Idealmodells:
+Mit q=r^2, a=tau*Omega^2, Ladungszahl j und Mobilitaet Z fuer j=1 gilt
+dq/dt=2*a*q + 2*j*Z*U(t)/ln(Ra/Ri).
+Fuer konstantes Omega, U(t_in+t)=U_in*exp(kappa*t) und feste Verweilzeit T:
+q_out = exp(2*a*T)*q_in + [2*j*Z*U_in/ln(Ra/Ri)]
+        *[exp(kappa*T)-exp(2*a*T)]/(kappa-2*a).
+Bei kappa=2*a gilt der stetige Grenzwert T*exp(2*a*T) des Quotienten.
+Bei kappa=0 wird die stationaere Flugbahngleichung zurueckgewonnen.
+Damit ist ein idealer dynamischer Scan-Kernel prinzipiell moeglich. Bei
+Omega>0 haengt die Korrektur von tau ab; ein einziger konstanter Zeitversatz
+ersetzt diese Modellierung nicht. Bei realen Messungen sind zudem die
+Verweilzeitverteilung, Schlauchverzug, CPC-Antwort, Zeitbinintegration,
+Mehrfachladung und zeitveraenderliche Eingangskonzentration zu beruecksichtigen.
+Rotation zunaechst je Scan konstant halten, stabilisieren und danach U scannen.
+Ein gemeinsamer schneller U/Omega-Scan ist eine eigene, zusaetzliche Aufgabe.
+
+4. Praktischer erster Scanvergleich und Akzeptanzkriterien
+
+Fuer positiven Stufenzahl n je Achse plus jeweilige Nullstufe entstehen:
+  8 x 8 ->   80 Messwerte
+ 12 x12 ->  168 Messwerte
+ 16 x16 ->  288 Messwerte
+ 24 x24 ->  624 Messwerte (aktueller Vergleich)
+ 32 x32 -> 1088 Messwerte
+ 48 x48 -> 2400 Messwerte
+Das sind Versuchsplaene zur Bestimmung eines Plateaus, keine Mindestvorgaben.
+Asymmetrische Raster ergaenzend pruefen: z.B. 24 positive U-Stufen x 4 positive
+Omega-Stufen plus beide Nullachsen -> 124 Messwerte; 48 x 6 -> 342 Messwerte.
+U-Dichte und Anzahl verschiedener Omega getrennt variieren. Alle Varianten
+muessen denselben physikalischen Bereich abdecken. Ein nur auf bekannten
+Soll-Peaks optimiertes Raster waere ein separat gekennzeichneter Idealfall.
+
+Zwei Vergleiche getrennt ausweisen:
+(a) gleiches Rauschen pro Messwert: isoliert Informations-/Abdeckungseffekt;
+(b) gleiche Gesamtmesszeit: mehr Messwerte bedeuten weniger Zaehlzeit je Wert;
+    Poisson-Anteil, Einstellzeiten und Ansprechzeit explizit mitrechnen.
+Das vorhandene absolute Gaussian-sigma, relativ zu max(mu), ist derzeit ein
+unabhaengiger Zufallsfehler pro Zeile; es ist kein konstanter Bias. In der
+laufenden 27er-Reihe ist Poissonrauschen deaktiviert. Daraus laesst sich keine
+experimentelle Mindestmessdauer ohne zusaetzliche Annahmen ableiten.
+
+Aktuell vom Nutzer gewaehlte Akzeptanzziele: Fehler von GMD, GSD und
+Gesamtkonzentration jeweils hoechstens 5%; relativer 2D-L2-Fehler hoechstens
+20%. Die numerische erste Designstudie prueft die drei aktuellen Monomoden
+und 3% relativen plus 3% peakbezogenen absoluten Gaussian-sigma. 0/0% und
+5/5% sind zusaetzliche Rausch-Nachpruefungen; ein Ergebnis bei 3/3% darf nicht
+als fuer alle Rauschstaerken ausreichend bezeichnet werden.
+
+Weitere Kriterien fuer eine datenabhaengige Mindestzahl:
+- Positive physikalische Kernelabdeckung und kein relevanter blinder Bereich.
+- Validierter Konvergenz-/Optimalitaetsstatus; Datenkompatibilitaet separat.
+- Kleine Aenderung der Rekonstruktion, N und Randmomente bei Rasterverdichtung
+  und unabhaengigen Wiederholungen; dafuer vorab Toleranzen festlegen.
+- Ausgelassene Kontrollpunkte mit ihren Unsicherheiten vorhersagen koennen.
+- Spektrums-/Aufloesungsanalyse, Regularisierungsstaerke und Unsicherheiten
+  berichten. Solverkonvergenz allein ist kein Nachweis, dass genug Daten da sind.
+- Mehrmodale/korrelierte Stressfaelle gesondert testen; die aktuellen drei
+  breiten Monomoden koennen den Datenbedarf einer freien 2D-Verteilung
+  unterschaetzen. Lognormal-Fit wird nicht als Nachweis verwendet.
+- Auswahl anhand Wiederholbarkeit, ausgehaltenen Daten und Rauschmass;
+  Soll-Verteilung nur zur separat ausgewiesenen Benchmarkbewertung nutzen.
+
+Reiner Poisson-Grenzfall, eigene Rechnung: lambda=Q*t*c, relative sigma=1/sqrt
+(lambda). Fuer 5% sind 400 erwartete Counts, fuer 3% 1112 Counts (aufgerundet),
+fuer 1% 10000 Counts je Messwert noetig. Bei Q=0.3 L/min=5 cm^3/s, idealer
+Detektion und 3% liegen die Mindestzaehlzeiten fuer c=1,10,100,1000 #/cm^3 bei
+222.4,22.24,2.224,0.2224 s. Es gilt die Konzentration NACH Klassierung, nicht
+die Gesamtkonzentration 10^5 #/cm^3 vor dem Instrument. Hintergrund, Effizienz,
+Totzeit und Systematik koennen laengere Zeiten oder andere Modelle verlangen.
+
+5. Verwendete Primaerquellen und direkter Belegumfang
+
+[S1] Rüther, Rasche, Schmid, Aerosol Research 3,65-79 (2025).
+https://ar.copernicus.org/articles/3/65/2025/
+DOI https://doi.org/10.5194/ar-3-65-2025
+Abschnitt 2, Gl. 3-5: kombinierte elektrische/rotatorische Trajektorie,
+Mobilitaet und Relaxationszeit; Abschnitt 4: ideale 2D-Transferfunktion.
+Der Artikel sagt, dass verschiedene Spannungs-/Drehzahlkombinationen der
+2D-Inversion dienen. Er legt keine universelle Mindestzahl an Messpunkten fest.
+Die Aussagen zum Nullraum, Datenbedarf und dynamischen Modell oben sind
+eigene mathematische Folgerungen, keine angeblichen Aussagen dieses Artikels.
+
+[S2] Rüther et al., Powders 4(2),11 (2025).
+https://www.mdpi.com/2674-0516/4/2/11
+DOI https://doi.org/10.3390/powders4020011
+Abschnitt 7.3: reale Messung mit 29 Spannungen und 14 Drehzahlen, etwa 12 h.
+Kontinuierliches Scannen der Spannung wird als erwartete Beschleunigung um
+Faktor 10-20 vorgeschlagen. Das ist dort eine Erwartung, keine bereits
+nachgewiesene Geschwindigkeits-/Genauigkeitsgarantie fuer beliebige Scans.
+DMA-/AAC-Modus und automatische Eingrenzung relevanter Kontrollbereiche
+werden ebenfalls fuer Zeitreduktion vorgeschlagen. Abschnitt 7.1 verwendet
+TSI 3775 CPC. Empirische Transferfunktionen enthalten reale Verluste und
+Verbreiterungen, die das ideale Modell nicht vollstaendig abbildet.
+
+[S3] Wang und Flagan (1990), Scanning Electrical Mobility Spectrometer,
+Aerosol Science and Technology 13(2),230-240.
+https://authors.library.caltech.edu/records/ynykn-had11
+DOI https://doi.org/10.1080/02786829008959441
+Originalabstract im Autorenarchiv: kontinuierliche exponentielle E-Feldrampe,
+eindeutige Ein-/Austrittszeitzuordnung, bis zu 100 Mobilitaetsmesswerte in
+30 s. Dies belegt das Scanning-Prinzip beim DMA, nicht die unveraenderte
+Uebertragbarkeit eines DMA-Dynamikkernels auf den rotierenden CDMA.
+
+[S4] TSI, offizielle Application Note SMPS-006, Fast Scanning Using TSI's
+Scanning Mobility Particle Sizer Spectrometer Model 3938.
+https://tsi.com/getmedia/c4c51d97-0c48-49e3-9ceb-847aead214f0/SMPS-006-A4_Fast_Scanning_Using_3938-web?ext=.pdf
+S.3: kuerzere Scans bedeuten weniger gezaehlte Partikel und schlechtere
+Zaehlstatistik; schmale/monodisperse Verteilungen und geringe Konzentrationen
+profitieren weniger. Schnelle CPC-Antwort, kurze Verbindungsleitung und
+passende Zeitverzugskorrektur sind relevant. Geraetespezifische Zahlen dieser
+Note sind keine Zusicherung fuer den bestehenden CDMA/TSI3775-Aufbau.
+
+[S5] MathWorks, offizielle MATLAB-Dokumentation rank.
+https://www.mathworks.com/help/matlab/ref/rank.html
+Rang als Zahl linear unabhaengiger Spalten; numerische Berechnung ueber SVD
+und Toleranz. Default max(size(A))*eps(norm(A)). Dieser Toleranzwert prueft
+numerische Rangdefizienz, nicht durch Messrauschen begrenzte Aufloesung.
+
+[S6] TSI, Model 3775 Condensation Particle Counter Operation and Service
+Manual, Kapitel 6, Total Count Accuracy; offizielles Herstellerdokument,
+zugreifbare unveraenderte PDF-Kopie beim Geraetedistributor Kenelec.
+https://www.kenelec.com.au/wp-content/uploads/2016/06/TSI_3775_Condensation_Particle_Counter_Manual.pdf
+sigma_rel=sqrt(n)/n; Konzentration=n/(Q*t); Sensorfluss etwa 0.3 L/min.
+Die Poisson-Count- und Zeitbeispiele oben sind eigene Rechnungen daraus.
+Ein realer Sensor hat weitere Fehlerquellen und ist separat zu kalibrieren.
+
+6. Ausgefuehrte ideale dynamische Kontrollpruefung
+
+md_dynamic_tests wurde in MATLAB R2021a isoliert mit einem Thread ausgefuehrt:
+44 Kontrollpunkte, dieselben 3 Monomoden, 30/60/300/1200 s Scanzeit, 12.9 s
+Rechenzeit. 9 Tests bestanden; kappa=0 reproduziert die gespeicherte stationaere
+Matrix bei identischer Quadratur exakt. Ω=0-Identitaet, scheinbare Resonanz
+kappa=2*a, Grenzstetigkeit und U=0-Invarianz wurden geprueft.
+
+Nach Ausschluss positiver Spannungszeitpunkte vor einer vollen Verweilzeit
+betraegt der relative L2-Fehler der mit stationaerem Kernel berechneten Signale
+gegenueber den dynamischen Signalen fuer die drei Formen:
+30 s: 61.0-65.6%; 60 s: 35.2-38.6%; 300 s: 8.5-10.3%; 1200 s: 2.1-2.7%.
+Ω=0 liefert U_eff/U_out=0.2436,0.4299,0.8229,0.9512. Schnellere Scans haben
+damit im idealen Vergleich relevante dynamische Effekte; ein dynamischer
+Kernel kann diese ideal modellieren. Das beweist keine reale Scanrate und
+keine Einhaltung des 20%-Rekonstruktionsziels: hier wurden ausschliesslich
+Vorwaertssignale und analytische Konsistenz getestet, keine Inversion.
+Details: DYNAMIC_REPORT.txt, md_dynamic_metrics.csv, md_dynamic_results.mat.
+
+Offen: Numerisches Rang-/Abdeckungsplateau und experimentelle
+Messzeitoptimierung sind getrennte Aufgaben. Noch keine pauschale Aussage
+'168/288/624 Punkte reichen' ohne ausgefuehrte Akzeptanzpruefungen.

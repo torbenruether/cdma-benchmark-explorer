@@ -1,0 +1,11 @@
+{
+  "state": "completed",
+  "checkedMetricValues": 627,
+  "maximumScaledDifference": 2.9453831943390723e-13,
+  "truthNormalization": "passed",
+  "physicalSupport": "passed",
+  "nonnegativity": "passed",
+  "axisOrder": "dm columns, dst rows; MATLAB F order and HDF5 transpose",
+  "densityL2": "cell area weighted, bin concentration squared divided by log-bin area",
+  "moments": "cell log centroids and within-cell log variance, both marginals"
+}

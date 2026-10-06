@@ -1,0 +1,38 @@
+{
+  "scope": "Schemabeispiel; keine reale Messung. Beispielzahlen definieren keine Hardwarekalibrierung.",
+  "requiredRowFields": [
+    "voltageAssigned_V",
+    "rotation_Hz",
+    "concentration_cm3",
+    "exposureSeconds",
+    "timestamp",
+    "scanDirection"
+  ],
+  "exampleRow": {
+    "voltageAssigned_V": 123.0,
+    "rotation_Hz": 10.0,
+    "concentration_cm3": 120.0,
+    "exposureSeconds": 0.02,
+    "timestamp": "2026-10-05T21:00:00.000+02:00",
+    "scanDirection": "up"
+  },
+  "optionalRawCountFields": {
+    "detectedCounts": 12,
+    "sampleFlow_cm3_s": 5.0,
+    "liveTimeSeconds": 0.02
+  },
+  "requiredPerScanMetadata": {
+    "voltageAssignmentConvention": "Die reale SMPS-artige Spannungszuordnung des Instruments dokumentieren und denselben Bezug im dynamischen Kernel verwenden.",
+    "timestampConvention": "Elektronischer Ausgabezeitpunkt, Messintervallmitte oder kalibrierter Partikelzeitpunkt explizit definieren.",
+    "calibratedDelaySeconds": null,
+    "voltageHistory": "Gemessene oder validierte U(t)-Rampe einschliesslich Vorgeschichte; keine fehlende Spannungszuordnung angenommen.",
+    "rotationHistory": "Konstante Omega je Scan oder gemessene/validierte Omega(t)-Historie.",
+    "detectorResponseCalibration": null,
+    "scanDirection": "up oder down",
+    "notes": "Spannungsgebundene Datenzeilen sind gueltige Messindizes. Die Zuordnung allein bedeutet keinen stationaeren instantanen Transfer. U_out in md_dynamic_scan ist ausschliesslich die Konvention des idealen Tests und keine Vorgabe fuer die reale Zuordnung."
+  },
+  "expectedCountModel": "lambda_i = Q_count * integral_over_exposure [dynamic_kernel(U_history, Omega_history, calibrated_assignment, particle_properties) * bin_concentrations] dt, gegebenenfalls mit realer Detektorantwort und Effizienz.",
+  "maximumAcquisitionRate_Hz": 50,
+  "minimumAcquisitionBinSeconds": 0.02,
+  "importantDistinction": "50 Hz Ausgaberate ist weder eine angenommene Antwortbandbreite noch die Zahl unabhaengiger Verteilungsinformationen."
+}

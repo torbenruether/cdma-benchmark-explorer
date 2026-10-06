@@ -1,0 +1,9 @@
+{
+  "launcherPid": 94512,
+  "startedAt": "2026-10-05T21:33:49.6041973+02:00",
+  "batch": "maxNumCompThreads(1);addpath('C:\\Users\\torbe\\Documents\\MATLAB\\CDMA_benchmark\\POCS_2D_Benchmark\\extended_benchmark\\measurement_design');md_delay_tests();",
+  "logfile": "C:\\Users\\torbe\\Documents\\MATLAB\\CDMA_benchmark\\POCS_2D_Benchmark\\extended_benchmark\\measurement_design\\md_delay_matlab.log",
+  "purpose": "isolated artificial delay-alignment fixtures, one thread, no real delay calibration",
+  "completedAt": "2026-10-05T21:34:31.9408482+02:00",
+  "state": "completed: 8 artificial alignment tests passed; dedicated process gone; no actual delay calibration"
+}

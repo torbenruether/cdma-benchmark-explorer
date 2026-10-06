@@ -1,0 +1,84 @@
+CDMA Messdatenbedarf: ausgefÃ¼hrte Zusatzstudie
+Stand 2026-10-05 22:01:10
+Ergebnisse C:\Users\torbe\Documents\MATLAB\CDMA_benchmark\POCS_2D_Benchmark\extended_benchmark\measurement_design\md_empirical_outputs\20261005_212055
+
+36 tatsÃ¤chliche Solverergebnisse, 0 AusfÃ¼hrungsfehler, 2309.4 s; 64 Bins/Dekade.
+Ziele: |N/GMD_dm/GMD_dst/GSD_dm/GSD_dst Fehler| <=5% und 2D-L2<=20%.
+TargetPass verlangt zusÃ¤tzlich unabhÃ¤ngige Konvergenz-, Daten- und ParameterprÃ¼fung.
+Rauschen: vorhandene feste Messdaten und Gewichte; pro Punkt gleiche Unsicherheit. Gesamtmesszeit wÃ¤chst mit Messpunktzahl.
+Aktueller Fokus: Anzahl stationÃ¤rer Messwerte; keine Spannungsrampen, Delayzeiten oder Scandauer simuliert.
+Bekannte Verteilung nur fÃ¼r Auswertung, keine Parameterwahl anhand Wahrheit. Identische VorwÃ¤rts-/Inversionsdiskretisierung ist ein Konsistenztest.
+
+Design;Case;Method;m;relative;absolute;L2;Nerror;GMDdm;GMDdst;GSDdm;GSDdst;Validated;TargetPass;heldoutStdRMSE
+uniform_24x24;1;Bayesian GP-MAP;624;0.03;0.03;0.2319;0.0443;-0.0340;0.0013;0.1916;0.1469;1;0;NaN
+uniform_24x24;2;Bayesian GP-MAP;624;0.03;0.03;0.2052;0.0349;-0.0153;0.0324;0.1553;0.1473;1;0;NaN
+uniform_24x24;3;Bayesian GP-MAP;624;0.03;0.03;0.2103;0.0559;-0.0541;-0.0341;0.1745;0.1508;1;0;NaN
+voltage_only;1;Bayesian GP-MAP;24;0.03;0.03;0.7857;0.1575;-0.1957;0.2751;0.4669;0.5984;0;0;5.2385
+voltage_only;2;Bayesian GP-MAP;24;0.03;0.03;0.8093;0.1225;-0.1948;0.1976;0.5438;0.6652;1;0;5.6446
+voltage_only;3;Bayesian GP-MAP;24;0.03;0.03;0.8352;0.2875;-0.3331;-0.0289;0.7584;0.7997;0;0;5.4469
+uniform_5x5;1;Bayesian GP-MAP;35;0.03;0.03;0.4715;0.1042;-0.1332;-0.0367;0.3501;0.2810;0;0;1.5728
+uniform_5x5;2;Bayesian GP-MAP;35;0.03;0.03;0.6681;0.1365;-0.0408;-0.0362;0.5657;0.3995;0;0;2.4205
+uniform_5x5;3;Bayesian GP-MAP;35;0.03;0.03;0.6735;0.2553;-0.0480;-0.0925;0.6181;0.5414;0;0;2.7313
+uniform_8x8;1;Bayesian GP-MAP;80;0.03;0.03;0.5032;0.0897;-0.0548;-0.0574;0.3688;0.1495;1;0;1.1903
+uniform_8x8;2;Bayesian GP-MAP;80;0.03;0.03;0.3173;0.0520;-0.0109;0.0314;0.2515;0.1586;0;0;1.0835
+uniform_8x8;3;Bayesian GP-MAP;80;0.03;0.03;0.3158;0.1151;-0.0996;-0.0985;0.3269;0.2309;0;0;0.9955
+uniform_12x12;1;Bayesian GP-MAP;168;0.03;0.03;0.2744;0.0571;-0.0003;0.0062;0.2102;0.1719;0;0;0.9319
+uniform_12x12;2;Bayesian GP-MAP;168;0.03;0.03;0.2901;0.0392;-0.0105;0.0347;0.1817;0.1941;0;0;1.0008
+uniform_12x12;3;Bayesian GP-MAP;168;0.03;0.03;0.3155;0.0975;-0.0993;-0.0962;0.2816;0.1686;0;0;0.9579
+qr168;1;Bayesian GP-MAP;168;0.03;0.03;0.3036;0.0788;-0.0642;-0.0026;0.2918;0.2549;0;0;0.8361
+qr168;2;Bayesian GP-MAP;168;0.03;0.03;0.2670;0.0506;-0.0215;0.0409;0.2393;0.2213;0;0;0.9461
+qr168;3;Bayesian GP-MAP;168;0.03;0.03;0.2973;0.0461;-0.0525;-0.0471;0.2143;0.1194;1;0;0.9241
+uniform_12x24;1;Bayesian GP-MAP;324;0.03;0.03;0.2411;0.0604;-0.0550;-0.0072;0.2240;0.1515;0;0;0.8742
+new_24x48;1;Bayesian GP-MAP;1224;0.03;0.03;0.1740;0.0231;0.0111;0.0385;0.1460;0.1721;1;0;NaN
+new_24x48;2;Bayesian GP-MAP;1224;0.03;0.03;0.1383;0.0191;0.0132;0.0549;0.0999;0.1603;0;0;NaN
+new_24x48;3;Bayesian GP-MAP;1224;0.03;0.03;0.1463;0.0252;-0.0214;0.0044;0.1526;0.1273;0;0;NaN
+new_48x48;1;Bayesian GP-MAP;2400;0.03;0.03;0.1535;0.0274;0.0156;0.0339;0.1481;0.1654;1;0;NaN
+new_48x48;2;Bayesian GP-MAP;2400;0.03;0.03;0.1496;0.0206;-0.0055;0.0329;0.1511;0.1582;0;0;NaN
+new_48x48;3;Bayesian GP-MAP;2400;0.03;0.03;0.1678;0.0300;-0.0162;0.0147;0.1381;0.1381;1;0;NaN
+uniform_16x16;1;Bayesian GP-MAP;288;0.03;0.03;0.2755;0.0633;-0.0361;-0.0050;0.1971;0.2074;0;0;0.8790
+uniform_16x16;2;Bayesian GP-MAP;288;0.03;0.03;0.2260;0.0530;-0.0257;0.0029;0.1550;0.1155;0;0;0.9614
+uniform_16x16;3;Bayesian GP-MAP;288;0.03;0.03;0.1947;0.0582;-0.0592;-0.0451;0.1582;0.1546;1;0;0.8940
+uniform_12x24;2;Bayesian GP-MAP;324;0.03;0.03;0.2547;0.0317;-0.0041;0.0460;0.1659;0.1554;0;0;0.9981
+uniform_12x24;3;Bayesian GP-MAP;324;0.03;0.03;0.2495;0.0712;-0.0542;-0.0324;0.2009;0.1864;1;0;0.9210
+uniform_24x12;1;Bayesian GP-MAP;324;0.03;0.03;0.2546;0.0299;-0.0146;-0.0056;0.1871;0.1184;0;0;0.9111
+uniform_24x12;2;Bayesian GP-MAP;324;0.03;0.03;0.2221;0.0299;-0.0094;0.0284;0.1279;0.1423;1;0;0.9431
+uniform_24x12;3;Bayesian GP-MAP;324;0.03;0.03;0.2628;0.0823;-0.0841;-0.0926;0.2302;0.1601;1;0;0.9432
+uniform_24x24;1;Tikhonov;624;0.03;0.03;0.4336;0.1110;-0.0770;-0.0728;0.2895;0.1205;1;0;NaN
+uniform_24x24;2;Tikhonov;624;0.03;0.03;0.3741;0.0668;-0.0239;-0.0106;0.2129;0.1531;1;0;NaN
+uniform_24x24;3;Tikhonov;624;0.03;0.03;0.4257;0.0605;-0.0427;-0.0357;0.2399;0.1556;1;0;NaN
+
+Kleine Stichprobe, eine gepaarte Realisierung je Grundfall: keine universelle Mindestzahl etabliert.
+Keines der ausgefÃ¼hrten Ergebnisse erfÃ¼llt alle Ziele gleichzeitig. Eine hinreichende Mindestmesspunktzahl ist damit nicht nachgewiesen.
+
+Ergänzung: tatsächlich ausgeführter Twomey-Markowski-Vergleich
+21 zusätzliche Fits, dieselben Messdaten/Gewichte wie GP: 35/80/168/288/624/1224/2400 Punkte, drei Formen.
+Optimierte Vorbereitung lässt nur die für Twomey unbenutzte SVD aus; B,b,diagQ identisch, Rekonstruktionsvergleich Delta 0.
+Gesamt 57 Fits; 0 gemeinsame Qualitäts- UND Validierungsziele erreicht.
+Fokus nur Messwertzahl bei fixen 3%+3% Gaussian-Komponenten; keine Delay-/Zeitmodelle.
+uniform_5x5 M1: L2=3900.9284, N=159.0794, GMDdm=-0.8318,GMDdst=-0.4005,GSDdm=-0.0667,GSDdst=-0.1654, Validated=1, TargetPass=0
+uniform_5x5 M2: L2=3092.8529, N=135.0396, GMDdm=-0.8666,GMDdst=-0.4981,GSDdm=-0.0170,GSDdst=-0.1314, Validated=1, TargetPass=0
+uniform_5x5 M3: L2=1164.7240, N=63.2278, GMDdm=-0.8924,GMDdst=-0.5915,GSDdm=0.1416,GSDdst=-0.0480, Validated=1, TargetPass=0
+uniform_8x8 M1: L2=1.2561, N=0.7564, GMDdm=-0.3757,GMDdst=-0.1743,GSDdm=1.0665,GSDdst=0.4665, Validated=1, TargetPass=0
+uniform_8x8 M2: L2=1.3224, N=0.7274, GMDdm=-0.4570,GMDdst=-0.2835,GSDdm=1.1790,GSDdst=0.4325, Validated=1, TargetPass=0
+uniform_8x8 M3: L2=1.1169, N=0.7250, GMDdm=-0.4951,GMDdst=-0.3416,GSDdm=1.1742,GSDdst=0.4760, Validated=1, TargetPass=0
+uniform_12x12 M1: L2=0.9270, N=0.4351, GMDdm=-0.2947,GMDdst=-0.1680,GSDdm=0.6920,GSDdst=0.3277, Validated=1, TargetPass=0
+uniform_12x12 M2: L2=0.9447, N=0.4037, GMDdm=-0.3403,GMDdst=-0.1828,GSDdm=0.7875,GSDdst=0.3750, Validated=1, TargetPass=0
+uniform_12x12 M3: L2=0.9496, N=0.5371, GMDdm=-0.4326,GMDdst=-0.2927,GSDdm=0.8991,GSDdst=0.3668, Validated=1, TargetPass=0
+uniform_16x16 M1: L2=0.8587, N=0.3597, GMDdm=-0.2526,GMDdst=-0.1818,GSDdm=0.6190,GSDdst=0.2604, Validated=1, TargetPass=0
+uniform_16x16 M2: L2=0.9122, N=0.3565, GMDdm=-0.3044,GMDdst=-0.2246,GSDdm=0.6814,GSDdst=0.2174, Validated=1, TargetPass=0
+uniform_16x16 M3: L2=0.7868, N=0.3558, GMDdm=-0.3521,GMDdst=-0.2578,GSDdm=0.7577,GSDdst=0.2924, Validated=1, TargetPass=0
+uniform_24x24 M1: L2=0.7016, N=0.2014, GMDdm=-0.1373,GMDdst=-0.1479,GSDdm=0.4396,GSDdst=0.1568, Validated=1, TargetPass=0
+uniform_24x24 M2: L2=0.6205, N=0.1517, GMDdm=-0.1095,GMDdst=-0.1001,GSDdm=0.4292,GSDdst=0.2154, Validated=1, TargetPass=0
+uniform_24x24 M3: L2=0.6116, N=0.1768, GMDdm=-0.1505,GMDdst=-0.1697,GSDdm=0.4693,GSDdst=0.2389, Validated=1, TargetPass=0
+new_24x48 M1: L2=0.6443, N=0.1574, GMDdm=-0.0980,GMDdst=-0.1143,GSDdm=0.3831,GSDdst=0.1823, Validated=1, TargetPass=0
+new_24x48 M2: L2=0.5960, N=0.1485, GMDdm=-0.0972,GMDdst=-0.0995,GSDdm=0.4049,GSDdst=0.2115, Validated=1, TargetPass=0
+new_24x48 M3: L2=0.6151, N=0.1555, GMDdm=-0.1380,GMDdst=-0.1571,GSDdm=0.4973,GSDdst=0.2396, Validated=1, TargetPass=0
+new_48x48 M1: L2=0.6103, N=0.1390, GMDdm=-0.0823,GMDdst=-0.1058,GSDdm=0.3543,GSDdst=0.1574, Validated=1, TargetPass=0
+new_48x48 M2: L2=0.6085, N=0.1300, GMDdm=-0.0809,GMDdst=-0.1057,GSDdm=0.3883,GSDdst=0.1884, Validated=1, TargetPass=0
+new_48x48 M3: L2=0.5767, N=0.1246, GMDdm=-0.0906,GMDdst=-0.1177,GSDdm=0.4097,GSDdst=0.2164, Validated=1, TargetPass=0
+
+Abschließender Stand: 33 GP-, 21 Twomey- und 3 Tikhonov-Ergebnisse, insgesamt 57.
+Alle drei Formen sind für die vorgesehenen Punktzahlen ausgeführt. Keine Kombination erfüllt alle Genauigkeitsziele gemeinsam.
+Bei GP2400 sind zwei von drei Ergebnissen zertifiziert; das dritte bleibt wegen unzureichender Stationarität ausdrücklich unbewertet.
+Die Twomey-Konvergenz bezeichnet das Erreichen des Datenfehlers beim iterativen Regularisieren, keinen nachträglichen Optimierungs-KKT-Beweis.
+Mindestdatenbedarf für diese Ziele nicht nachgewiesen. Einzelner Seed, ideale identische Diskretisierung; nicht auf alle Solver/Verteilungen verallgemeinern.

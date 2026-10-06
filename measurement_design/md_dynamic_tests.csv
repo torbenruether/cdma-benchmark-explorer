@@ -1,0 +1,10 @@
+Test,Observed,Tolerance,Passed
+"kappa zero reproduces frozen quadrature-6 static kernel",0,2e-12,1
+"Omega zero effective voltage analytic identity",0,2e-14,1
+"kappa equals twice a: finite resonance limit",0,2e-14,1
+"resonance continuity",1.72671876796926e-11,1e-10,1
+"small-rate convergence to stationary shift",1.67671476702935e-09,2e-08,1
+"U zero unchanged, scan 30 s",0,2e-12,1
+"U zero unchanged, scan 60 s",0,2e-12,1
+"U zero unchanged, scan 300 s",0,2e-12,1
+"U zero unchanged, scan 1200 s",0,2e-12,1

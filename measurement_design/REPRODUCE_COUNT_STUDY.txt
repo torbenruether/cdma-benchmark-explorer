@@ -1,0 +1,68 @@
+Reproduzierbare Messwertzahlstudie — abgeschlossen, 57 Ergebnisse
+
+Einstieg (MATLAB R2021a, für GP/Tikhonov Optimization Toolbox):
+  cd('C:\Users\torbe\Documents\MATLAB\CDMA_benchmark\POCS_2D_Benchmark\extended_benchmark\measurement_design')
+  md_empirical
+Nach Abschluss des primären 36er Versuchs:
+  md_twomey_counts
+Die separaten Start-MDEmpirical.ps1 und Start-MDTwomeyCounts.ps1 verhindern
+doppelte Messdatenstudienprozesse. Nicht erneut starten, solange diese laufen.
+Die primäre Studie setzt einen unvollständigen aktiven Ergebnisordner fort;
+nach einem abgeschlossenen Durchlauf erzeugt md_empirical einen neuen Ordner.
+md_twomey_counts überspringt vorhandene Twomey-Ergebnisse im aktiven Ordner.
+
+Benötigte unveränderte Quellen:
+- ../solver_revision und dessen core-Ordner; tatsächlich verwendete Dateien
+  und SHA-256-Werte stehen in metadata.json und MD_EMPIRICAL_ACTIVE.json.
+- ../../outputs/mono_first_64bpd_20261005/common.mat (A, g, scan).
+- ../solver_revision/outputs/factorial27_corrected/datasets/ds00005.mat,
+  ds00014.mat und ds00023.mat: Sollverteilung, Komponenten, ursprüngliche
+  624 Messwerte und feste sigma-Werte. Weitere gespeicherte Solverlösungen
+  darin dürfen für exakt dieselben Daten übernommen werden und sind markiert.
+
+Eigene Programme:
+- md_empirical.m: 33 tatsächliche GP-Fälle plus 3 Tikhonov-Referenzen.
+- md_twomey_counts.m: 21 Fälle des tatsächlichen Twomey-Markowski-Verfahrens.
+- md_empirical_fit.m: derselbe Bewertungs-/Speicherstandard der Fortsetzung.
+- md_twomey_prepare.m: exakt dieselbe B-, b- und diagQ-Bildung; nur die für
+  Twomey unbenutzte SVD wird ausgelassen. Reale Eingabedaten und beide
+  tatsächlichen Rekonstruktionen wurden verglichen: Abweichung exakt Null.
+- design_specs.json: originale MATLAB-1-basierte Zeilen für Teilscans.
+- md_empirical_validate.py: unabhängige Prüfung der CSV-Zertifikate, Ziel-
+  klassifikation, zurückgehaltenen Messpunkte und eingefrorenen Quelldateien.
+
+Neue echte stationäre Vorwärtsmatrizen:
+- new_24x48_kernel.mat, new_48x48_kernel.mat: Anew, scanNew, info, jeweils
+  mit der unveränderten cdma_kernel-Physik und Quadratur q=6 berechnet.
+  Kein Hochskalieren oder mehrfaches Verwenden derselben Messzeile.
+- Neues 1224er/2400er Rauschen ist im Ergebnisordner explizit gespeichert:
+  acquisition_new_24x48_M1.mat ... _M3.mat und
+  acquisition_new_48x48_M1.mat ... _M3.mat.
+  Felder yy, ss, mu, sa, referencePeak, noiseSeed. Beide Verfahren verwenden
+  exakt diese gespeicherten yy und ss. Der absolute Referenzpeak bleibt der
+  des ursprünglichen 624er Scans, 3 % relative und 3 % absolute Fehler.
+
+Aktuelles vollständiges Ergebnis:
+  md_empirical_outputs/20261005_212055/results.mat und results.csv
+  solutions/*.mat, metadata.json, progress.json, validation.json
+  twomey_preparation_validation.mat
+  EMPIRICAL_REPORT.txt, EMPIRICAL_LIMITS.txt, DESIGN_REVIEW.txt
+Zusätzlich sind vom Hauptagenten Bericht, Vergleichsfigur und unabhängige
+Nachrechnung der gespeicherten Rekonstruktionen erzeugt worden.
+
+57 ist die Anzahl gespeicherter wissenschaftlicher Solverfälle, einschließlich
+gekennzeichneter Übernahmen derselben bereits gelösten Originaldaten. Vorbereitungs-
+Unitprüfungen werden darin nicht als weitere Fälle gezählt.
+33 GP = 9 Teil-/Referenzdesigns x3 Formen + 1224x3 + 2400x3.
+21 Twomey = 35/80/168/288/624/1224/2400 Punkte x3 Formen.
+3 Tikhonov = die ursprünglichen 624 Punkte x3 Formen.
+Alle auf 64 Bins/Dekade, demselben dm/dst-Bereich und denselben monomodalen
+Formen. Keine Lognormal-Fits in dieser Beurteilung, keine dynamischen Scans,
+keine Delay- oder Aufnahmezeitmodelle, keine zusätzlichen 0/5%-Versuche.
+
+Keines der 57 Ergebnisse erreicht alle vorgegebenen Ziele zugleich.
+Ein größerer Datenumfang verbessert den 2D-L2-Fehler einzelner Fälle, schafft
+aber in dieser Studie keine gemeinsame 5%-Genauigkeit aller Momente.
+Unzertifizierte numerische Ergebnisse bleiben unzertifiziert. Damit ist keine
+allgemeine Mindestmesswertzahl festgestellt; weder >2400 als notwendige
+Schwelle noch eine universelle Unmöglichkeit dürfen behauptet werden.

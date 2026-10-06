@@ -1,0 +1,120 @@
+ZEITVERZUG DER CDMA-SPANNUNGSSCANS: QUELLENPRUEFUNG
+Stand 2026-10-05. Gezielte, ausschliesslich lesende Suche in Quell-MATLAB,
+Rueckrechnung, historischen Messskripten, kopierten Originalen und PSS.
+Laufende Solverquellen und Quelldateien auf E: wurden nicht geaendert.
+
+ERGEBNIS
+Die ideale Partikelverweilzeit von 17.267148 s ist im dynamischen Kernel
+bereits enthalten. Ein numerisch kalibrierter zusaetzlicher Schlauch-/CPC-
+Transportverzug und eine reale CPC-Antwortfunktion wurden nicht identifiziert.
+Die bestehende SMPS-artige Spannungszuordnung ist als Datenbezug anerkannt;
+ob darin bereits eine Zeitkorrektur enthalten ist, bleibt in den vorliegenden
+Metadaten unbelegt. Eine erneute Korrektur darf dann nicht automatisch erfolgen.
+
+KONKRETE PARAMETER AUS QUELLDATEN
+E:\Sciebo\Sync-Ordner\2_Matlab Programme\MatlabScripts\Measurement\Measurement2D_PSD.m
+Zeile 37: CPC_t.Period=1 s (historische Datenerfassung 1 Hz).
+Zeile 39: CPC_t.TasksToExecute=30 (30 Werte pro stationaerer Einstellung).
+Zeile 41: CPC_t.StartDelay=50 s.
+Zeile 112/115: Spannung setzen, danach Mess-Timer starten.
+Zeile 118: CPC_Mean(i,j)=mean(CPC_t.UserData).
+Diese 50 s sind die Anlauf-/Einschwingwartezeit des Timers vor der Messung.
+Sie sind KEIN kalibrierter reiner Transportdelay und werden nicht als
+Spannungs-Zeitverschiebung oder CPC-Zeitkonstante in die Scanrechnung uebernommen.
+Timeout=5 s in Zeile 17 bezeichnet nur das serielle Kommunikations-Timeout.
+Writeline(CPC,"X7") in Zeile 83 waehlt den historischen Low-flow-Modus.
+
+E:\Sciebo\Sync-Ordner\2_Matlab Programme\Aerosolcharakterisierung\CDMA_Bestimmung_Transfkt_2023\Measurement2D_PSD.m
+Zeile 44: StartDelay=45 s; Period=1 s und 30 Samples in Zeilen 40/42.
+Zeile 52 aendert StartDelay weiterhin auf 45 s fuer einen anderen Timerblock.
+Measurement2D_PSD_neu.m: Zeile 61, StartDelay=50 s.
+MeasurementTransfFkt_CDMA_DMAMode.m: Zeile 55, StartDelay=60 s; Period=1 s,
+40 Samples (Zeilen 51/53). Auch diese Werte sind Messwartezeiten.
+
+Historische Geraeteidentifikation:
+E:\Sciebo\Sync-Ordner\2_Matlab Programme\Aerosolcharakterisierung\CDMA_Bestimmung_Transfkt_2023\Messergebnisse1\SMPS_Messungen.txt
+Zeile 7: CPC Model 3775 Low Flow; Zeilen 2/3: Classifier 3080 und DMA 3081.
+Rueckrechnung\DMA_logNV\220517.csv, Zeile 2: Model 3775.
+2024_12 SMPS Messung Salz\Salz1.S80 enthaelt eine TSI-SMPS-Signatur und
+ASCII-Geraetemodell 3775. Die proprietaeren p80/S80-Binaerfelder wurden
+NICHT als unbekannte Float-Werte dekodiert; daraus wurde kein Delay geraten.
+Die historischen Modelle belegen nicht automatisch das heute fuer 50 Hz
+geplante Geraet oder dessen Betriebsmodus.
+
+AKTUELLER BENCHMARK UND PSS
+solver_revision\core\cdma_kernel.m, Zeile 6: resTime aus Geometrie und Strom.
+Die dynamische md_dynamic_scan-Pruefung integriert die Flugbahn von Eintritt
+bis Austritt fuer diese Verweilzeit; sie ist kein anschliessender Schlauchdelay.
+extended_config.m/cdma_config.m definieren keinen kalibrierten Post-CDMA-Delay
+und keine CPC-Zeitkonstante. Die vorliegenden PSS-Originale enthalten ebenfalls
+keinen solchen Scan-Timing-Parameter. Am angegebenen Dateninversion-Projektpfad
+befinden sich vor allem BenchmarkExplorerWeb/outputs; der kopierte PSS-Code
+wurde zusaetzlich durchsucht. Fehlende Metadaten werden nicht als Delay=0
+interpretiert.
+
+PRIMAERDOKUMENTATION: WAS SIE BELEGT UND WAS NICHT
+TSI Model 3775 Operation and Service Manual, Abschnitt 5, Fig.5-3, Anhang A.
+Herstellerdokument, unveraenderte zugaengliche Kopie beim Distributor:
+https://www.kenelec.com.au/wp-content/uploads/2016/06/TSI_3775_Condensation_Particle_Counter_Manual.pdf
+Nominale T95-Antwort auf Konzentrationssprung etwa 4 s High-flow und 5 s
+Low-flow. T95 ist eine Sprungantwort-Gesamtzeit, weder ein gemessener reiner
+Schlauchdelay noch eine CPC-Zeitkonstante dieses Aufbaus. Die Herstellerwerte
+werden daher NICHT als kalibrierter Delay oder als tau=5 s implementiert.
+Die heutige Vorgabe maximal 50 Hz wird fuer die Designstudie weiter verwendet;
+historische 1-Hz-Skripte validieren diese neue Datenausgabe nicht.
+
+RICHTIGE MATHEMATISCHE ZUORDNUNG
+Fuer einen reinen Post-Klassierer-Transportdelay d gilt bei noch unkorrigiertem
+CPC-Ausgabezeitstempel t_CPC: t_exit=t_CPC-d. Dann ist die zum Klassiereraustritt
+zugeordnete Spannung U_assigned=U(t_CPC-d), SOFERN die Hardware/Software die
+Spannung nicht schon auf diesen Zeitbezug korrigiert hat.
+Der dynamische Klassierer-Kernel benutzt danach die Spannungshistorie von
+t_exit-T_class bis t_exit. T_class=17.267148 s wird NICHT ein zweites Mal vom
+Zeitstempel abgezogen. Fuer eine reale Detektor-Antwort h_CPC statt reiner
+Totzeit gilt zusaetzlich eine Faltung mit h_CPC und die Integration ueber den
+20-ms-Messbin. Eine Zeitverschiebung allein modelliert keine Verbreiterung.
+
+Erforderliche Metadaten fuer eine numerische reale Scanpruefung:
+- Referenz des Zeitstempels (CPC-Ausgabe / Klassiereraustritt).
+- Referenz der zugeordneten Spannung und Flag, ob Delay bereits korrigiert ist.
+- Kalibrierter reiner Post-Klassierer-Delay in s mit Unsicherheit.
+- Synchronisierte reale U(t)-Historie, ggf. Omega(t), und Expositionsintervalle.
+- Kalibrierte Detektor-Antwort oder begruendete Unterscheidung reiner Delay/
+  verteilte Antwort; Sensorfluss und gegebenenfalls Live-Zeit/Rohcounts.
+Ein unbekanntes Flag oder fehlende Kalibrierung darf nicht still zu null werden.
+
+ISOLIERTE IMPLEMENTIERUNG UND PRUEFUNG
+md_delay_assign.m richtet reine Transportzeit und Spannung aneinander aus.
+Bereits korrigierte Spannungen bleiben unveraendert; bereits physikalische
+Zeitstempel werden nicht erneut verschoben. Fehlende Metadaten, unkalibrierter
+Delay und fehlende U(t)-Vorgeschichte werden ausdruecklich zurueckgewiesen.
+md_delay_tests.m benutzt einen BEKANNTEN KUENSTLICHEN 2-s-Delay als Fixture.
+Die Ergebnisse kalibrieren nicht das reale Instrument. In MATLAB R2021a
+ausgefuehrt: 8 Tests bestanden, darunter bekannte kuenstliche Zeitverschiebung,
+bereits korrigierte Spannung/Zeit, keine doppelte Klassiererverweilzeit sowie
+explizite Ablehnung fehlender Metadaten/Vorgeschichte/Kalibrierung.
+Der dedizierte Testprozess ist beendet. Teststatus und reine Illustrationswerte
+stehen in md_delay_checks.csv/md_delay_examples.csv.
+
+ILLUSTRATION DER EMPFINDLICHKEIT, KEINE DELAY-SCHAETZUNG
+Fuer die positive Exponentialrampe ist bei ignoriertem d die zugeordnete
+Spannung um den Faktor exp(kappa*d) zu hoch; relativer Spannungsfehler
+100*(exp(kappa*d)-1) Prozent. md_delay_examples.csv zeigt angenommene d=1/2/5 s
+fuer 30/60/300/1200 s Scanzeiten. Beim 30-s-Scan wuerden ignorierte reine
+Delays von 1/2/5 s beispielsweise 26.3/59.5/221.5% Spannungsfehlzuordnung
+erzeugen. Diese Werte sind Annahmen und werden nicht
+in laufende Solver oder wissenschaftliche Ergebnisdaten eingebracht.
+
+GEEIGNETE KALIBRIERPRUEFUNG
+Synchronisierte Spannung/Zeit und bekannte Kalibrieraerosole bzw. definierte
+Konzentrationsspruenge verwenden. Reinen Transitdelay getrennt von Form/Breite
+der Detektorantwort bestimmen und Auf-/Abwaertsscan-Uebereinstimmung pruefen.
+Ein einfaches Totzeit-plus-erster-Ordnung-Modell darf nur nach guter Anpassung
+an die gemessene Sprungantwort verwendet werden. T95 allein identifiziert
+Transportdelay und Zeitkonstante nicht eindeutig. Vor jeder Korrektur pruefen,
+ob die gespeicherte Spannungszuordnung den Verzug schon beinhaltet.
+
+Die empirische bisherige Messpunktstudie und der Hauptbenchmark verwenden
+stationaere Einstellungen. Ein reiner konstanter Post-Klassierer-Delay aendert
+deren synthetische stationaere Daten nicht. Bei kuenftigen schnellen Scans
+beeinflussen reale Antwort und ueberlappende Mittelung auch Rauschkorrelationen.

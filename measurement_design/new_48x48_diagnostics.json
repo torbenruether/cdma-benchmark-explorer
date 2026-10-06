@@ -1,0 +1,13 @@
+{
+  "name": "new_48x48",
+  "points": 2400,
+  "activeUnknowns": 5886,
+  "zeroRows": 3,
+  "zeroAllowedBins": 0,
+  "rankNumerical": 2395,
+  "rankRelative1e3": 1246,
+  "rankRelative1e6": 2275,
+  "singularMax": 119.05989315726798,
+  "singularMinNonzero": 7.289478248134223e-09,
+  "conditionNonzero": 16333115910.969612
+}

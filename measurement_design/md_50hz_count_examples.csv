@@ -1,0 +1,11 @@
+ConcentrationAfterClassificationCm3,TargetPoissonRelativeSigma,RequiredExpectedCounts,ExpectedCountsPer20msBin,Minimum20msBinsToAggregate,MinimumCountSeconds
+1,0.05,400,0.1,4000,80
+1,0.03,1112,0.1,11120,222.4
+10,0.05,400,1,400,8
+10,0.03,1112,1,1112,22.24
+100,0.05,400,10,40,0.8
+100,0.03,1112,10,112,2.24
+1000,0.05,400,100,4,0.08
+1000,0.03,1112,100,12,0.24
+10000,0.05,400,1000,1,0.02
+10000,0.03,1112,1000,2,0.04

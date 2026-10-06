@@ -1,0 +1,148 @@
+MESSPUNKTZAHL: PRUEFUNG DER NORMALISIERUNG VON GP UND TIKHONOV
+Stand 2026-10-05. Ausschliesslich lesende Pruefung eingefrorener Solverquellen;
+keine MATLAB-Prozesse gestartet, keine Solver-/Studienquellen geaendert.
+Umfang: mathematische Fairness bei m=624,1224,2400 Messwerten mit vorgegebenen
+Einzelmessunsicherheiten und identischem 64-Bins/Dekade-Ausgabegitter.
+
+BEFUND
+Die untersuchte Normalisierung ist konsistent. Der Faktor 1/sqrt(m) bildet
+den mittleren gewichteten Messfehler ab. Im GP-Evidence-Term steht der zur
+statistischen Likelihood notwendige Faktor m*p.lip ausdruecklich im Code.
+Ein zusaetzlicher Datengewinn wird dadurch nicht still herausnormalisiert.
+Tikhonov verwendet die zu dieser Normierung passende Parameter- und
+Diskrepanzskalierung. Eine reine Koordinatenskalierung durch max(abs(y))
+veraendert die physikalische Zielfunktion bei entsprechend skaliertem
+Regularisierungsparameter nicht.
+
+1. GENAUE IMPLEMENTIERUNG UND BEZEICHNUNGEN
+Pfadbasis: extended_benchmark\solver_revision\
+
+core\cdma_prepare.m
+Zeile 4: s=p.scale=max(max(abs(y)),1), m=numel(y), n=Anzahl aktiver Bins.
+Zeile 5: B=s*W*A/sqrt(m), mit W=diag(1./sigma).
+Zeile 6: b=W*y/sqrt(m).
+Zeilen 9-10: rechteckige direkte SVD, ell=p.lip=norm(B,2)^2.
+Zeile 12: p.target=1.
+extended_solve.m, Zeile 21: physikalische Bin-Konzentrationen N=s*x.
+
+Damit ist ||B*x-b||^2 = (1/m)*sum_i(((A*N)_i-y_i)/sigma_i)^2,
+also der MITTLERE quadratische standardisierte Messfehler chi2/m.
+Unter unabhaengigem Gaussian-Rauschen mit korrekt vorgegebenem sigma ist
+dies fuer eine wahre Verteilung im Erwartungswert 1. Es ist kein durch
+Parameterzahl korrigiertes chi2/(m-df); die Softwarebezeichnung ReducedChi2
+ist hier als chi2/m definiert, nicht als solche Freiheitsgradkorrektur.
+
+Die unnormierte Informationsmatrix des Gaussian-Likelihood-Terms lautet
+I_N=A'*W^2*A=m*(B'*B)/s^2. Der Faktor m ist bekannt und nicht verschwunden.
+Wiederholungen derselben Zeile erhoehen unter unabhaengigem Rauschen die
+Information, aber nicht den geometrischen Rang. Neue Messrichtungen koennen
+zusaetzlich den Rang bzw. die Abdeckung erhoehen.
+
+2. GP: EVIDENCE ENTHAELT DIE RICHTIGE DATENZAHL
+Tatsaechlich verwendete Funktion large_gp.m, aufgerufen ueber core\cdma_solve.m,
+Zeile 176; keine hypothetische oder erfundene GP-Implementierung untersucht.
+
+large_gp.m, Zeile 6: ratios=p.c.gpAlpha; interne Alpha-Kandidaten ell*ratios.
+Zeile 8: Bs=B/sqrt(ell), bs=b/sqrt(ell).
+Zeilen 11-13: C=Bs*K*Bs', Eigenzerlegung C=U*diag(e)*U', ub=U'*bs.
+Zeile 16: score=.5*(sum(log1p(e/a)) + m*ell*sum((a./(e+a)).*ub.^2)).
+Zeile 100: gespeicherter Parameter theta=a*ell*m.
+Zeile 104: gespeicherter Alpha-Rasterwert ebenfalls um m umgerechnet.
+
+Herleitung aus genau dieser Gleichung:
+Das Gaussian-Modell fuer die skalierten Daten bs hat Rauschkovarianz
+nu*I mit nu=1/(m*ell). Fuer den Prior x~N(0,v*K) und a=nu/v gilt
+v=1/(a*m*ell). Die Datenkovarianz ist v*C+nu*I.
+Abgesehen von fuer die Hyperparameterauswahl konstanten Termen lautet die
+negative Log-Evidence dann exakt
+.5*[sum log(1+e/a) + (1/nu)*sum a/(e+a)*ub^2].
+Mit 1/nu=m*ell ist dies die Codezeile 16. Das rauschbedingte Gewicht waechst
+korrekt mit der Datenzahl. Ohne diesen Faktor waere die Analyse inkonsistent;
+hier ist er vorhanden.
+
+MAP und Nichtnegativitaet:
+Zeilen 24-25 berechnen x0=K*Bs'*(C+a*I)^(-1)*bs sowie die skalierte
+Posterior-Kovarianz P=K-K*Bs'*(C+a*I)^(-1)*Bs*K. Ein gemeinsamer positiver
+Kovarianzfaktor kann in den dualen Positivitaetsmultiplikator absorbiert
+werden, ohne die MAP-Loesung zu veraendern. Das Auslassen dieses gemeinsamen
+Faktors aus der Dualiteration ist daher kein Messzahlfehler.
+
+Skalierung in physikalische N-Einheiten:
+Fuer H=W*A und rho=norm(H,2)^2 gilt ell=s^2*rho/m.
+Bs=H/sqrt(rho), bs=(W*y)/(s*sqrt(rho)).
+Im score hebt sich die Koordinatenskala s heraus. Die physikalische
+Prior-Kovarianz von N ist s^2*v*K=K/(a*rho).
+Der gespeicherte GP-Parameter theta ist die Priorpraezision fuer x=N/s;
+zur Darstellung in N-Einheiten muss theta/s^2 verwendet werden.
+
+Dokumentierte GP-Grenzen sind davon getrennt:
+large_gp.m, Zeile 110: Gaussian-Evidence ohne Positivitaets-Normierung;
+geclipptes Rauschen ist nur naeherungsweise Gaussian. Die Codezeile 108
+verlangt fuer gueltige Parameterauswahl, dass die Auswahl nicht an den
+Rastergrenzen liegt. Ein Randtreffer bedeutet eingeschraenkte Parameterwahl,
+nicht automatisch zu wenige oder genuegend Messdaten. Bei wechselndem m
+aendert sich die in physikalischen Einheiten abgedeckte Priorpraezisionsspanne;
+Randtreffer muessen deshalb weiterhin gesondert ausgewiesen werden.
+
+3. TIKHONOV: PARAMETER UND DISKREPANZ PASSEN ZUSAMMEN
+revision_optimizers.m, Zeilen 233/237:
+f=.5*||B*x-b||^2 + .5*alpha*x'*R*x,
+mit demselben normierten 2D-Glaettungsoperator R fuer das gemeinsame Gitter.
+Multiplikation mit m und N=s*x ergeben die aequivalente physikalische Form
+.5*||W*(A*N-y)||^2 + .5*lambda_N*N'*R*N,
+mit lambda_N=m*alpha/s^2.
+
+Zeilen 79/83: alpha=ell*pathMultiplier. Deshalb ist
+lambda_N=rho*pathMultiplier. Eine Aenderung von s durch den groessten
+beobachteten Datenwert skaliert nur die internen Koordinaten und alpha;
+bei gleichem pathMultiplier verschwindet s aus der physikalischen Funktion.
+
+Zeilen 93/100/114-118: Kandidatenresiduen und verfeinerte Parameterauswahl
+nutzen denselben mittleren Fehler und kreuzen den Zielwert 1.
+Zeilen 126/140: konvergierte Kandidaten werden bei der Auswahl beruecksichtigt.
+Zeile 149: targetBracketed wird nur anhand zertifizierter Kandidaten bestaetigt.
+Die Auswahl bleibt messdatenbasiert; die bekannte Sollverteilung wird dort
+nicht verwendet. Mehr m kann die benoetigte Regularisierungsstaerke veraendern;
+sie wird deshalb pro Datensatz erneut gewaehlt, statt einen unveraenderten
+internen Alpha-Wert ueber alle Messzahlen zu erzwingen.
+
+Tikhonov-lsqlin, Zeilen 310ff: [B;sqrt(alpha)*L] mit L'*L=R und gleichem
+Alpha prueft dieselbe Zielfunktion. Es ist kein anderer Regularisierungstyp.
+Der gespeicherte Tikhonov-Parameter ist alpha der mittleren Zielfunktion;
+GP-Parameter und Tikhonov-Parameter duerfen daher weder zwischen Methoden
+noch zwischen m ungeprueft als identische physikalische Groessen verglichen werden.
+Fuer gemeinsame physikalische Tikhonov-Darstellung: m*alpha/s^2 ausweisen.
+
+4. DATENKOMPATIBILITAET PASST SICH m AN
+extended_solve.m, Zeile 24: 95%-Gaussian-Schranke mittels Wilson-Hilferty-
+Approximation fuer chi2_m/m. Ohne winzigen numerischen Zuschlag betraegt sie
+bei m=624: 1.094906606;
+bei m=1224: 1.067404790;
+bei m=2400: 1.047951725.
+Zeile 32 verbindet objektive Konvergenz, Datenkompatibilitaet, gueltige
+Parameterauswahl und Nebenbedingungspruefung. Die strengere Konfidenzschranke
+bei mehr Daten ist statistisch nachvollziehbar, sofern der verwendete
+Unabhaengigkeits-/Gaussian-Ansatz fuer die gegebenen Daten gueltig ist.
+Die interne GP-Diagnostik hat zusaetzlich eine 1.10-Schranke (large_gp.m,
+Zeile 108), aber die gemeinsame abschliessende Auswertung verwendet die
+m-abhaengige Schranke aus extended_solve.m und ueberschreibt diesen Status.
+
+5. KLEINE UNABHAENGIGE ALGEBRAISCHE KONTROLLE
+Ohne MATLAB-Lauf und ohne Quelleingriff wurde die genaue GP-Score-Gleichung
+in NumPy mit einer unnormierten Gaussian-Likelihood verglichen: ein kleines
+SPD-Priormodell, unabhaengige synthetische Beobachtungen, m=624/1224/2400,
+zwei willkuerliche numerische Koordinatenskalen s=7 und s=19.
+Maximaler relativer Unterschied GP-Score: 5.41e-13.
+Maximaler Unterschied physikalischer Tikhonov-Loesungen bei Skalenaenderung:
+5.07e-15 (bei passend transformiertem physikalischem Regularisierungsparameter).
+Dies bestaetigt nur die oben hergeleiteten Normalisierungsidentitaeten;
+es ist kein zusaetzlicher CDMA-Rekonstruktionsbenchmark und belegt keine
+ausreichende Messpunktzahl oder empirische Verbesserung.
+
+GESAMTEINSCHAETZUNG
+Kein Faktor-m-Fehler in den tatsaechlich gelesenen GP-/Tikhonov-Funktionen
+gefunden. Der Vergleich verschiedener Messzahlen bleibt aussagekraeftig,
+wenn Einzelmessunsicherheiten, physikalischer Bereich, Ausgabegitter und
+Gueltigkeitskriterien fair festgehalten bzw. klar dokumentiert werden.
+Die konkrete ausreichende Zahl wird weiterhin empirisch anhand der vereinbarten
+Fehlerziele, Konvergenzzertifikate und unabhaengiger Datenbewertung bestimmt.

@@ -1,0 +1,11 @@
+{
+  "state": "completed",
+  "rows": 57,
+  "sourceSHA256": "passed",
+  "strictCertificates": "passed",
+  "heldoutChecks": "passed",
+  "allThreeShapePassGroups": [],
+  "executionErrors": 0,
+  "minimumAcrossAllNoiseEstablished": false,
+  "caveat": "Single noise realization, incomplete design-by-noise factorial. No universal minimum."
+}

@@ -1,0 +1,56 @@
+GRUNDDATEN, SIGNALQUALITAET UND ZAEHLSTATISTIK
+Read-only audit of the three 3% relative + 3% peak-referenced absolute datasets.
+Signal thresholds use the synthetic true generating sigma, only for diagnosis.
+They are not solver parameter selection, rank tests or a minimum sample count.
+The solver uses the original plug-in sigma based on observed signal.
+M1: 624 measurements, peak 14181.1 #/cm3, absolute sigma 425.432 #/cm3; signal >=1/3/5 sigma at 336/278/246 points; 141 negative raw readings clipped.
+M2: 624 measurements, peak 14190.9 #/cm3, absolute sigma 425.727 #/cm3; signal >=1/3/5 sigma at 364/305/274 points; 114 negative raw readings clipped.
+M3: 624 measurements, peak 14348.6 #/cm3, absolute sigma 430.458 #/cm3; signal >=1/3/5 sigma at 396/346/305 points; 122 negative raw readings clipped.
+
+More sampled points with signals below the absolute noise floor need not improve inversion.
+Clipping negative Gaussian readings makes blank-channel errors biased and non-Gaussian.
+This limitation is retained for comparability; actual likelihood/covariance needs calibration.
+The current absolute sigma is independent across points. A common offset or calibration bias
+has correlated errors and cannot be reduced as 1/sqrt(number of readings).
+
+Required information for one inversion:
+- Concentrations/raw counts with U, rotation, timestamps and dwell/scan history.
+- Flow rates, geometry, temperature/pressure/viscosity, charge distribution and detector response.
+- The density/reference convention defining dst; dst is not automatically a volume diameter.
+- Blank/zero and repeat measurements to estimate additive noise, signal-dependent variance,
+  covariance/drift, counting efficiency and instrument/background offsets.
+- A calibrated stationary or dynamic transfer function, depending on acquisition.
+- Independent total/marginal measurements only if genuinely acquired with their uncertainty.
+  Known simulated truth must not become a measurement constraint.
+
+No universal number of calibration repetitions can be inferred without a precision target.
+For independent Gaussian repeated readings at one setting, the approximate relative standard
+error of a sample standard deviation is 1/sqrt(2*(r-1)): r=14/51/201 repetitions correspond
+to about 20%/10%/5% precision in sigma (one standard error, not a confidence guarantee).
+A 95% interval would require more repetitions; drift and correlation reduce effective count.
+Use several blank and representative low/mid/high-signal settings, rather than pool different
+concentrations as if they were repetitions of one mean.
+
+Ideal Poisson counting bound, not the present Gaussian benchmark:
+relative counting sigma=1/sqrt(expected counts), expected counts=Q*c*t.
+5%:400; 3%:1112; 1%:10000 expected counts per point. With Q=0.3 L/min=5 cm3/s
+and classified c=10 #/cm3, the ideal times are 8/22.24/200 s per point.
+At fixed total dwell time, increasing rows divides the available counts among more settings;
+it is therefore a different comparison from fixed per-row sigma in the design study.
+Concentration is AFTER classification. Upstream N=10^5 #/cm3 is not a detector count rate.
+Settling, tubing, efficiency, dead time and correlated calibration error are absent from this bound.
+
+User-specified CPC limit: maximum 50 Hz, hence minimum timebin 20 ms.
+The transfer function will be adapted for a dynamic scan. This study does not impose a
+stationary-kernel minimum scan duration on that future dynamic acquisition.
+At 5 cm3/s sensor flow a 20-ms bin has expected counts=0.1*c (ideal detection).
+A single bin reaches ideal 3% Poisson sigma only at c>=11111.12 #/cm3 after classification;
+5% needs c>=4000 #/cm3. At the present 14181..14349 #/cm3 peak, there are
+about 1418..1435 expected counts/bin and ideal Poisson sigma about 2.64..2.66%.
+Low-signal bins need longer integrated count time or aggregation. During a varying scan,
+aggregation must also integrate the corresponding dynamic kernel instead of assigning
+all counts to the centre voltage. 50-Hz storage is not a statement about independent samples.
+
+Primary source for count law and nominal sensor flow: TSI 3775 manual, chapter 6.
+https://www.kenelec.com.au/wp-content/uploads/2016/06/TSI_3775_Condensation_Particle_Counter_Manual.pdf
+The repeat-sigma precision and count-time examples are our own calculations under stated assumptions.

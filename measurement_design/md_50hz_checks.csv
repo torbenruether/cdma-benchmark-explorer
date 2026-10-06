@@ -1,0 +1,6 @@
+Check,ObservedError,Passed
+time quadrature normalized,8.88178419700125e-16,1
+odd moment symmetry,1.68474065924676e-17,1
+quadratic temporal moment,8.32667268468867e-16,1
+constant signal count integration,8.88178419700125e-16,1
+zero ramp matches static kernel,0,1

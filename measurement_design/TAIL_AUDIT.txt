@@ -1,0 +1,14 @@
+TAIL AUDIT: full624 GP, 3% + 3% noise, diagnostic only.
+The 3-sigma regions refer to the specified single-mode lognormal parameters.
+Cell log centroids classify cells; boundary-cell fractions are not integrated exactly.
+No truth was used to choose measurements, alpha, constraints or reconstruction.
+M1 dm: truth tail 0.319%; reconstructed tail 5.566% (outside +/-3 log-sigma).
+M1 dst: truth tail 0.222%; reconstructed tail 3.301% (outside +/-3 log-sigma).
+M2 dm: truth tail 0.255%; reconstructed tail 5.258% (outside +/-3 log-sigma).
+M2 dst: truth tail 0.254%; reconstructed tail 3.381% (outside +/-3 log-sigma).
+M3 dm: truth tail 0.295%; reconstructed tail 5.254% (outside +/-3 log-sigma).
+M3 dst: truth tail 0.255%; reconstructed tail 5.859% (outside +/-3 log-sigma).
+Broad low-amplitude tails can give small-ish density L2 error while changing log moments.
+This diagnoses the width failure, and does not alone identify its cause or prove a noise bias.
+The present reconstruction remains strongly prior-dependent. Unknown measured distributions
+cannot be truncated around simulated truth to improve benchmark scores.

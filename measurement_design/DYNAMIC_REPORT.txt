@@ -1,0 +1,25 @@
+IDEALE DYNAMISCHE CDMA-SCANPRUEFUNG
+Berechnet am 2026-10-05 21:14:24, 12.9 s Laufzeit; 44 Kontrollpunkte, 3 Monomoden.
+Statische Quelldaten: C:\Users\torbe\Documents\MATLAB\CDMA_benchmark\POCS_2D_Benchmark\outputs\mono_first_64bpd_20261005\common.mat
+9 Tests bestanden; kappa=0 relativer Kernelunterschied 0.
+Verweilzeit 17.267148 s; U 0.572520..632.036232 V; positive Exponentialrampe.
+Spannung ist dem Partikelaustritt zugeordnet. Anfangswerte vor T als Starttransient markiert.
+Modell benutzt exponentielle Vorgeschichte, konstantes Omega und ideale Plug-flow-Verweilzeit.
+Keine CPC-Antwort, Schlauch-Verweilzeitverteilung, Spannungselektronik oder inverser Solver modelliert.
+Fehler sind Vorwaertssignalfehler des stationaeren Kernels bezogen auf dynamische Signale,
+keine Rekonstruktionsfehler und keine direkte Anwendung des 20%-Verteilungsziels.
+Chi2 ist eine Modellfehlerdiagnostik fuer 3% relative+3% peakbezogene absolute Standardabweichung.
+M1,   30 s: rel. Signalfehler 42.532%; nach Start 60.979%; Omega0 U_eff/U_out 0.2436; Chi2 nach Start 50.333
+M2,   30 s: rel. Signalfehler 47.665%; nach Start 65.569%; Omega0 U_eff/U_out 0.2436; Chi2 nach Start 91.730
+M3,   30 s: rel. Signalfehler 46.247%; nach Start 63.827%; Omega0 U_eff/U_out 0.2436; Chi2 nach Start 80.030
+M1,   60 s: rel. Signalfehler 29.497%; nach Start 35.236%; Omega0 U_eff/U_out 0.4299; Chi2 nach Start 16.958
+M2,   60 s: rel. Signalfehler 33.144%; nach Start 38.622%; Omega0 U_eff/U_out 0.4299; Chi2 nach Start 29.581
+M3,   60 s: rel. Signalfehler 33.136%; nach Start 38.637%; Omega0 U_eff/U_out 0.4299; Chi2 nach Start 26.620
+M1,  300 s: rel. Signalfehler 9.405%; nach Start 10.289%; Omega0 U_eff/U_out 0.8229; Chi2 nach Start 1.423
+M2,  300 s: rel. Signalfehler 7.895%; nach Start 8.530%; Omega0 U_eff/U_out 0.8229; Chi2 nach Start 1.344
+M3,  300 s: rel. Signalfehler 7.987%; nach Start 8.650%; Omega0 U_eff/U_out 0.8229; Chi2 nach Start 1.286
+M1, 1200 s: rel. Signalfehler 2.497%; nach Start 2.740%; Omega0 U_eff/U_out 0.9512; Chi2 nach Start 0.099
+M2, 1200 s: rel. Signalfehler 2.151%; nach Start 2.327%; Omega0 U_eff/U_out 0.9512; Chi2 nach Start 0.098
+M3, 1200 s: rel. Signalfehler 1.964%; nach Start 2.130%; Omega0 U_eff/U_out 0.9512; Chi2 nach Start 0.075
+Fazit: schneller Spannungs-Scan erfordert dynamischen Kernel und reale Kalibrierung.
+Fuer kappa=0 ist stationaere Implementierung numerisch reproduziert; dynamischer Hardwarebetrieb bleibt ungeprueft.

@@ -1,0 +1,176 @@
+CDMA: Messdatenbedarf und Messplandesign — lesende Bestandsprüfung
+Stand: 2026-10-05. Keine laufenden MATLAB-Quellen oder Prozesse verändert.
+
+1. Tatsächlich vorhandene Grunddaten
+Quelle: outputs/mono_first_64bpd_20261005/common.mat und measurement_grid.csv.
+Die Rekonstruktion verwendet 64 Bins je Dekade, insgesamt 108 × 108 Bins;
+wegen d_st <= d_m bleiben 5886 physikalisch erlaubte unbekannte Binmassen.
+Der aktuelle Scan enthält 24 positive Spannungen und 24 positive Drehzahlen,
+zusätzlich jeweils die Nullstufe. Das Paar (0,0) ist ausgeschlossen:
+25 × 25 - 1 = 624 Messpunkte, kein einzelner eindimensionaler Spannungsscan.
+Spannung: 0 sowie 0.572520 bis 632.036232 V.
+Drehzahl: 0 sowie 1.046239 bis 22.531523 Hz (etwa 62.774 bis 1351.891 rpm).
+Beide Achsen stammen aus logäquidistanten Referenzdurchmessern 15–1200 nm;
+die Spannung bzw. Drehzahl selbst ist deshalb nicht logäquidistant.
+
+Die physikalisch eingeschränkte Matrix A hat 624 Zeilen und 5886 Spalten.
+Drei Zeilen sind exakt Null: MATLAB-Zeilen 24, 600 und 624:
+(U,f) = (0,1.046239), (632.036232,0), (632.036232,1.046239).
+Sie tragen im vorhandenen Kernel keine Information über die Verteilung,
+könnten experimentell aber Untergrund und Rauschen kontrollieren.
+Andere Zeilen sind nicht exakt identisch. Sehr ähnliche Zeilen treten auf:
+maximale normierte Kreuzkorrelation nicht identischer, nichtleerer Zeilen
+0.999996232. Ein zusätzlicher Messpunkt ist daher nicht gleichbedeutend mit
+einer zusätzlichen gut messbaren Verteilungsrichtung.
+
+2. Direkte Matrixprüfung (NumPy/SciPy, ein BLAS-Thread)
+Die folgenden Ränge verwenden direkte rechteckige SVD, keine Eigenwerte
+von A*A'. Numerischer Rang: s > max(size(A))*eps*s_max. Die relativen
+1e-3- und 1e-6-Schwellen sind nur beschreibende Diagnosen; sie ersetzen
+weder ein Rauschmodell noch eine physikalische Auflösungsgrenze.
+
+Positive Stufen je Achse | Messpunkte | numerischer Rang | Rang1e-3 | Rang1e-6 | unsichtbare erlaubte Bins | Halb-Sensitivitätsabdeckung
+5                       | 35         | 32               | 29       | 31       | 2                        | 35.71 %
+8                       | 80         | 77               | 71       | 76       | 0                        | 55.28 %
+12                      | 168        | 165              | 148      | 163      | 0                        | 74.14 %
+16                      | 288        | 285              | 251      | 283      | 0                        | 84.10 %
+24                      | 624        | 621              | 508      | 615      | 0                        | 100.00 %
+
+Die Stufen wurden aus den sortierten positiven 24 Stufen gleichmäßig über
+die Indexachse ausgewählt, Endpunkte und Nullränder erhalten:
+5: [1,7,12,18,24]
+8: [1,4,8,11,14,17,21,24]
+12: [1,3,5,7,9,11,14,16,18,20,22,24]
+16: [1,3,4,6,7,9,10,12,13,15,16,18,19,21,22,24]
+24: [1,...,24]
+Indexrundung kann MATLAB/Python bei exakten Halbzahlen unterscheiden;
+die oben festgeschriebenen Arrays vermeiden diese Reproduzierbarkeitsfrage.
+Diese gleichmäßigen Teilpläne sind nicht vollständig ineinander geschachtelt.
+32 positive Stufen erfordern einen neu berechneten Kernel: 33²-1=1088
+Messpunkte. Sie lassen sich nicht aus dem gespeicherten 624er Scan auswählen.
+
+Halb-Sensitivitätsabdeckung bedeutet: Anteil erlaubter Bins, deren höchste
+Transferantwort im Teilscan mindestens 50 % ihrer höchsten Antwort im
+Vollscan erreicht. Sie ist keine Wahrscheinlichkeit oder Fehlergarantie.
+Vollscan: kleinste höchste Binantwort 0.107435, keine blinden erlaubten Bins.
+Nichtleere Singulärrichtungen des Vollscans sind stark konditioniert:
+s_max/s_min_nonzero etwa 6.81e7. Numerischer Rang 621 erlaubt nicht die
+freie Identifikation von 5886 Binmassen. Mindestens 5265 lineare Freiheitsgrade
+bleiben im Nullraum. Bei einer strikt positiven Verteilung können kleine
+Nullraumänderungen positiv bleiben: Nichtnegativität allein schafft keine
+allgemeine Eindeutigkeit.
+
+3. Was ein Spannungsscan zusätzlich leisten kann
+Im verwendeten Modell hängt die elektrische Mobilität nur von d_m ab;
+die Zentrifugalantwort enthält d_st²*Cc(d_m). Ein Spannungsscan mit
+ausgeschalteter Rotation unterscheidet deshalb unterschiedliche d_m, aber
+keine allgemeinen zweidimensionalen Verteilungen mit denselben d_m-Marginalen.
+Der vorhandene reine Spannungsscan hat 24 Zeilen, Rang 23. Ein reiner
+Drehzahlscan hat ebenfalls 24 Zeilen/Rang 23 und 1383 blinde erlaubte Bins.
+Ein Spannungsdurchlauf je ausreichend verschiedenen Drehzahlen ist eine
+sinnvolle 2D-Erweiterung. Eine einzelne feste Drehzahl mit beliebig vielen
+Spannungen liefert gemischte, nicht separat örtliche 2D-Information; die
+Messpunkte und ihre unabhängigen Richtungen müssen numerisch geprüft werden.
+Spannungsscan und Drehzahlscan müssen beide Modellgrenzen abdecken.
+Ein kontinuierlicher SMPS-artiger Scan erfordert zusätzlich Aufenthalts-
+und Totzeiten sowie zeitliche Übertragungsfunktion; der aktuelle Kernel
+modelliert stationäre Einstellungen, keinen dynamischen Spannungsdurchlauf.
+Schnellere Abtastung allein erhöht dann die unabhängige Information nicht.
+
+4. Messpunktwahl ist ebenso wichtig wie deren Anzahl
+Explorativ wurde eine pivotierte QR von A' verwendet, ausschließlich aus
+dem Vorwärtsoperator, ohne Sollverteilung. Bei gleicher absoluter Unsicherheit
+kann sie informative und weniger redundante Messzeilen auswählen.
+Auswahlbudget | numerischer Rang | Kondition | Halb-Sensitivitätsabdeckung | blinde Bins
+35            | 35               | 8.72      | 90.16 %                    | 13
+80            | 80               | 21.85     | 99.25 %                    | 2
+168           | 168              | 51.72     | 99.95 %                    | 0
+288           | 288              | 121.07    | 100.00 %                   | 0
+Diese Werte belegen keine bessere Rekonstruktion. Die Auswahl bevorzugt
+zunächst 21 starke Drehzahlrandmessungen; eine kleine Kondition kann auch
+dadurch entstehen, dass schwierige Verteilungsrichtungen nicht gemessen
+werden. Ein Abdeckungsminimum und tatsächliche Rekonstruktionskontrollfälle
+sind deshalb zwingend. Bei heteroskedastischem Rauschen muss QR auf dem
+kalibrierten/mit Pilotdaten geschätzten sigma-gewichteten Operator erfolgen.
+Messkostengleiche Auswahl muss zusätzlich Einstell-/Settlingzeiten bewerten.
+Ein nur auf der Sollverteilung beruhender adaptiver Scan wäre ein idealisierter
+Oraclevergleich und darf den regulären Vergleich nicht bestimmen.
+
+5. Datenbedarf je Solver richtig beurteilen
+POCS, Tikhonov, TV, TGV, Huber, Entropie und GP verwenden denselben
+Informationsgehalt der Messungen, aber andere Annahmen über die Verteilung.
+Es gibt keine dokumentierte universelle Mindestzahl pro Methode. Ein Solver
+kann schon mit wenigen Daten numerisch konvergieren und dabei eine stark
+priorgeprägte falsche Verteilung liefern. Umgekehrt bedeutet eine korrekte
+Zielfunktionskonvergenz nicht, dass genügend Daten vorhanden waren.
+Der Lognormal-Fit verwendet nur wenige Parameter und benötigt lokal viel
+weniger unabhängige Daten; er bleibt, wie angefordert, außerhalb der Bewertung.
+
+Aktuell vorgegebene Qualitätsziele: Fehler von N sowie jedem GMD und GSD
+höchstens 5 %, gewichteter relativer 2D-L2-Fehler höchstens 20 %. Alle Ziele
+müssen zugleich erfüllt sein; der Lognormal-Fit bleibt ausgeschlossen.
+Auch 624 Punkte erfüllen diese Ziele in vorhandenen rauschbehafteten
+Kontrollfällen nicht automatisch. Eine kleinere Mindestzahl darf daraus
+nicht behauptet werden.
+
+Pro Scan/Solver zu erfassen:
+- Fehlermetriken der bestehenden Auswertung; Konvergenz, Datenverträglichkeit,
+  Parameterauswahl und Nebenbedingungsverletzung getrennt ausweisen.
+- sigma-gewichtete direkte Singularwerte, numerischer Rang, blinde Bins,
+  Transferabdeckung, Zeilenähnlichkeit; Gewichte nicht aus der Sollverteilung.
+- Für linearen Tikhonov die effektiven Freiheitsgrade trace(H),
+  H=B*(B'*B+alpha*L'*L)^(-1)*B'. Bei Nichtnegativität gilt das nur für die
+  lokal freien Variablen; aktive Mengen ändern sich. Keine nackte Rangschwelle
+  s/s_max als objektives Rauschkriterium benutzen.
+- Messdatenabhängige Regularisierungswahl je Scan neu durchführen; dieselbe
+  Alpha-Zahl über unterschiedliche Messpunktzahlen ist nicht automatisch fair.
+- Eine Mindestdatenzahl als erstes getestetes Budget definieren, das vorab
+  festgelegte Fehlergrenzen in allen untersuchten Größen-/Rauschfällen und
+  unabhängigen Wiederholungen einhält. Liegen nur Einzelrealisierungen vor,
+  darf das Ergebnis nur als vorläufige Eignung dieser Fälle bezeichnet werden.
+
+6. Zwei Zeit-/Rauschvergleiche strikt trennen
+Der laufende Benchmark enthält unabhängige absolute und relative Gaussian-
+Zufallsterme und negativen Signalclip. Er enthält kein Probenvolumen oder
+Messzeit und kein Shotnoise. Ein Scanvergleich mit unverändertem sigma je
+Messpunkt entspricht gleich langer Messzeit pro Punkt und damit wachsender
+Gesamtzeit bei größerem Scan. Das ist keine kostenneutrale Verbesserung.
+
+Bei festem Gesamtzeitbudget T gilt für gleichmäßige Dwellzeit t=T/M und
+Poisson-Zählungen lambda_i=mu_i*Q*t_i:
+Var(mu_hat_i)=mu_i/(Q*t_i), Q in cm³/s, mu in #/cm³, t in s.
+Mehr Punkte liefern mehr Richtungen, erhöhen aber das Zählrauschen je Punkt.
+Für Q=0.3 L/min ergibt sich Q=5 cm³/s. Ein zusätzlicher Zeitlauf muss auch
+Einstellzeiten und Totzeit aus T abziehen.
+Ein kanalunabhängiger weißer Elektronikfehler kann mit Wiederholungen sinken;
+ein gemeinsamer Kalibrierungsfehler oder statischer Offset wird durch mehr
+Messpunkte nicht weggeglichen. Der vorhandene 'absolute Fehler' ist ein pro
+Messkanal unabhängiges Zufalls-sigma, kein gemeinsamer fester Offset.
+Der absolute Peakbezug ist über alle Teilpläne konstant zu halten; ihn pro
+Teilscan neu aus dessen schwächerem Peak zu berechnen wäre ein unfair anderes
+Rauschmodell. Dieselben gespeicherten Messdaten/Seeds im Teilscan verwenden.
+
+7. Begrenzter, schneller numerischer Zusatzversuch
+Zuerst die obige reine Matrixanalyse; sie braucht keine Solverschleife.
+Dann bevorzugt 80, 168 und 624 Punkte, drei monomodale Standardformen,
+zunächst 3 % absolut + 3 % relativ, gespeicherte gepaarte Daten, 2 robuste
+repräsentative Solver (POCS-PSS und Tikhonov): 18 Solverläufe. 35 Punkte als
+grob unterabgetastete Negativkontrolle, 288 für Übergangsprüfung ergänzen,
+wenn die erste Reihe eine aussagekräftige Grenze ergibt. QR bei gleichem
+Budget ergänzen, weil reine Dichteerhöhung möglicherweise ineffizient ist.
+Die laufenden 297 Hauptläufe bleiben unangetastet; eigene Ergebnisordner.
+Den gesamten 11-Solver-Vergleich erst nach ausgewerteter kurzer Reihe planen.
+Ein 32er Scan ist eine separate neue Vorwärtsrechnung mit 1088 Datenpunkten.
+Wegen der neuen strengen Qualitätsziele ergänzt die Root-Auswertung außerdem
+24×12 und 12×24 positive Achsenstufen (je 324 Punkte), QR168 und einen
+neuen 48×24 beziehungsweise 24×48 stationären Scan (je 1224 Punkte).
+Die Dateien design_specs.json und rank_coverage.csv enthalten exakt
+reproduzierbare, MATLAB-1-basierte Zeilenauswahlen der gespeicherten Scans.
+Für 48er Stufen sind dort nur Plandefinitionen gespeichert, keine
+vorgetäuschten Ergebnisse oder ersetzten vorhandenen Kernel.
+
+Der asymmetrische vorhandene 12×24-Teilscan erreicht 99.44 % Halb-Sensitivitäts-
+abdeckung, 24×12 nur 75.09 %, bei gleicher Punktzahl und gleichem Rang 321.
+Diese unterschiedliche Abdeckung spricht für eine gesonderte Prüfung der
+Drehzahldichte. Sie allein belegt weder einen Vorteil für eine bestimmte
+Sollverteilung noch eine hinreichende Zahl unabhängiger 2D-Informationen.

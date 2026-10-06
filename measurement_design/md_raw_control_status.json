@@ -1,0 +1,11 @@
+{
+  "state": "stopped_after_scope_change",
+  "updated": "2026-10-05 21:40:10",
+  "savedCases": 2,
+  "reason": "User requested measurement-count comparison only; no more scan/delay or extra noise variants",
+  "stoppedVerifiedPIDs": [
+    91384,
+    95580
+  ],
+  "assessmentIncluded": false
+}

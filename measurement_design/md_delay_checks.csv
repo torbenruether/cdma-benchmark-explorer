@@ -1,0 +1,9 @@
+Check,ObservedError,Passed
+known artificial 2 s delay,0,1
+correct classifier exit time,0,1
+already-corrected voltage retained,0,1
+already-corrected time retained,0,1
+classifier residence not applied twice,0,1
+missing alignment metadata rejected,0,1
+missing prehistory rejected,0,1
+undefined real delay rejected,0,1

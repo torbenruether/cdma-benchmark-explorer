@@ -1,0 +1,10 @@
+{
+  "launcherPid": 86640,
+  "startedAt": "2026-10-05T21:14:07.6753357+02:00",
+  "batch": "maxNumCompThreads(1);addpath('C:\\Users\\torbe\\Documents\\MATLAB\\CDMA_benchmark\\POCS_2D_Benchmark\\extended_benchmark\\measurement_design');md_dynamic_tests();",
+  "logfile": "C:\\Users\\torbe\\Documents\\MATLAB\\CDMA_benchmark\\POCS_2D_Benchmark\\extended_benchmark\\measurement_design\\md_dynamic_matlab.log",
+  "purpose": "isolated dynamic forward-kernel tests, max one thread, no main solver changes",
+  "matlabPid": 95784,
+  "completedAt": "2026-10-05T21:15:19.1635182+02:00",
+  "state": "completed: 9 tests passed; dedicated processes gone"
+}

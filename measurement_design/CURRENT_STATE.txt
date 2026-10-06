@@ -1,0 +1,27 @@
+COUNT STUDY COMPLETE, 2026-10-05 22:01:10
+MD_EMPIRICAL_ACTIVE.json -> md_empirical_outputs/20261005_212055
+57 scientific results, 0 execution errors, 0 all-target successes.
+33 GP, 21 Twomey-Markowski, 3 Tikhonov reference fits.
+Fixed 3% relative +3% original-full-peak absolute Gaussian sigma.
+All 3 monomodal shapes, original 64 bins/decade dm/dst grid unchanged.
+Count only: no voltage-ramp, delay or acquisition-time simulation.
+GP includes actual newly computed stationary1224/2400 operators;
+Twomey reuses precisely the stored acquisitions for those operators.
+
+All57 CSV classifications, certificates and heldout diagnostics checked.
+11 frozen source SHA256 identities unchanged.
+Twomey optimized preparation reproduces B,b,diagQ exactly; actual
+reconstruction comparison difference0 and identical certificate status.
+Root independent627 metric checks PASS, maxdifference2.95e-13.
+No measurement-study MATLAB process remains. Frozen mainbenchmark continues.
+
+Targets: each N/GMD/GSD error<=5%,2D-L2<=20%, plus numerical/data/parameter
+certificate. GP2400 L2=15.3/15.0/16.8% but GSD errors13.8..16.5%.
+Only2/3 GP2400 certified; middle case lacks stationarity certification.
+Twomey2400 L2=57.7..61.0%, certified by its iterative-discrepancy stopping.
+No universal or solver-specific adequate minimum established by these data.
+
+Reports: EMPIRICAL_REPORT.txt, EMPIRICAL_LIMITS.txt, DESIGN_REVIEW.txt,
+REPRODUCE_COUNT_STUDY.txt; root-generated final report and comparison plot.
+Startup/resume logs are historical; the active pointer is authoritative.
+Do not restart any count study unless a new run is explicitly intended.

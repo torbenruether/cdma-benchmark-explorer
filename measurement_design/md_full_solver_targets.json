@@ -1,0 +1,101 @@
+[
+  {
+    "Method": "POCS-PSS",
+    "AvailableCases": 3,
+    "ExpectedCases": 3,
+    "ValidatedCases": 3,
+    "TargetPassingCases": 0,
+    "AllThreePass": false,
+    "AssessmentIncluded": true
+  },
+  {
+    "Method": "Twomey-Markowski",
+    "AvailableCases": 3,
+    "ExpectedCases": 3,
+    "ValidatedCases": 3,
+    "TargetPassingCases": 0,
+    "AllThreePass": false,
+    "AssessmentIncluded": true
+  },
+  {
+    "Method": "Tikhonov",
+    "AvailableCases": 3,
+    "ExpectedCases": 3,
+    "ValidatedCases": 3,
+    "TargetPassingCases": 0,
+    "AllThreePass": false,
+    "AssessmentIncluded": true
+  },
+  {
+    "Method": "Tikhonov-lsqlin",
+    "AvailableCases": 3,
+    "ExpectedCases": 3,
+    "ValidatedCases": 3,
+    "TargetPassingCases": 0,
+    "AllThreePass": false,
+    "AssessmentIncluded": true
+  },
+  {
+    "Method": "Lognormal-fit",
+    "AvailableCases": 3,
+    "ExpectedCases": 3,
+    "ValidatedCases": 3,
+    "TargetPassingCases": 3,
+    "AllThreePass": true,
+    "AssessmentIncluded": false
+  },
+  {
+    "Method": "TGV2-PDHG",
+    "AvailableCases": 3,
+    "ExpectedCases": 3,
+    "ValidatedCases": 0,
+    "TargetPassingCases": 0,
+    "AllThreePass": false,
+    "AssessmentIncluded": true
+  },
+  {
+    "Method": "TV-2D",
+    "AvailableCases": 3,
+    "ExpectedCases": 3,
+    "ValidatedCases": 0,
+    "TargetPassingCases": 0,
+    "AllThreePass": false,
+    "AssessmentIncluded": true
+  },
+  {
+    "Method": "Maximum Entropy",
+    "AvailableCases": 3,
+    "ExpectedCases": 3,
+    "ValidatedCases": 3,
+    "TargetPassingCases": 0,
+    "AllThreePass": false,
+    "AssessmentIncluded": true
+  },
+  {
+    "Method": "Bayesian GP-MAP",
+    "AvailableCases": 3,
+    "ExpectedCases": 3,
+    "ValidatedCases": 3,
+    "TargetPassingCases": 0,
+    "AllThreePass": false,
+    "AssessmentIncluded": true
+  },
+  {
+    "Method": "Huber-TV",
+    "AvailableCases": 3,
+    "ExpectedCases": 3,
+    "ValidatedCases": 0,
+    "TargetPassingCases": 0,
+    "AllThreePass": false,
+    "AssessmentIncluded": true
+  },
+  {
+    "Method": "POCS-CDMA",
+    "AvailableCases": 3,
+    "ExpectedCases": 3,
+    "ValidatedCases": 3,
+    "TargetPassingCases": 0,
+    "AllThreePass": false,
+    "AssessmentIncluded": true
+  }
+]

@@ -1,0 +1,49 @@
+Auswertungsgrenzen der Messdatenstudie
+
+Eine kleine numerische Kondition, vollstÃ¤ndige Binabdeckung und erfolgreiche
+Solverkonvergenz belegen nicht gemeinsam die gewÃ¼nschte Verteilungsgenauigkeit.
+Die QualitÃ¤tsziele gelten simultan: N, beide GMD und beide GSD jeweils <=5 %
+relativer Fehler; gewichteter relativer 2D-L2-Fehler <=20 %. ZusÃ¤tzlich werden
+Objektivkonvergenz, MessdatenvertrÃ¤glichkeit, Parameterwahl und Nebenbedingungen
+separat zertifiziert. CSV TargetPass enthÃ¤lt alle diese Anforderungen.
+
+Wenn eine kleine Messpunktauswahl Validated=false erhÃ¤lt, kann das an einem
+numerischen OptimalitÃ¤tskriterium oder einer Hyperparametergrenze liegen.
+Das ist kein Beweis, dass die Zahl ihrer Messpunkte grundsÃ¤tzlich unzureichend
+ist. Die konkrete ErklÃ¤rung steht in der CSV-Spalte Status und im zugehÃ¶rigen
+MAT-Ergebnis samt Solverdiagnostik. Eine universelle Mindestzahl ist aus einem
+Solverfehler oder aus einem einzelnen Rauschseed nicht ableitbar.
+
+Die rauschbehafteten Teilscans verwenden dieselben gespeicherten y und sigma
+an den ausgewÃ¤hlten Zeilen. Der absolute Peakbezug bleibt der des vollstÃ¤ndigen
+624er Referenzscans. Der neue 1224er stationÃ¤re Scan verwendet dieselbe absolute
+Referenzgenauigkeit und getrennt dokumentierte neue Gaussian-Zufallsziehungen.
+Neue Scannerstellungen lassen sich deshalb nicht einzeln als gepaarte Messungen
+gegenÃ¼ber anderen Scannerstellungen interpretieren. Konzentration, Physik,
+Rekonstruktionsgitter und Solver sind ansonsten unverÃ¤ndert.
+
+Eine Realisierung pro Grundform ist ein begrenzter Kontrollversuch. Unterschiedliche
+Messauswahlen enthalten unterschiedliche Teilmengen des Rauschens. Eine monotone
+Fehlerabnahme bei wachsender Punktzahl ist deshalb nicht garantiert. Erst mehrere
+unabhÃ¤ngige Wiederholungen ermÃ¶glichen zuverlÃ¤ssige Fehlerquantile fÃ¼r einen
+operativen Mindestdatenbedarf. Die 0 % und 5 % Endpunkte werden nur mit 624
+Punkten untersucht; diese Studie deckt kein vollstÃ¤ndiges Scan-mal-Rausch-Faktoriell ab.
+
+Der vorhandene Benchmark clippt negative Gaussian-Messwerte auf Null. Bei einem
+rauschfreien Nullkanal und absoluter Standardabweichung sigma erzeugt dies
+E[max(sigma*Z,0)]=sigma/sqrt(2*pi), Z~N(0,1). Beispielsweise sigma=425.432 #/cmÂ³
+fÃ¼hrt zu einem positiven mittleren Signal von 169.727 #/cmÂ³. Wiederholungen
+senken die Varianz, aber nicht diesen durch Clipping verursachten Mittelwert.
+Eine ungeÃ¤nderte Gaussian-Quadratik beschreibt diese zensierten Daten nur
+nÃ¤herungsweise. Positive schwache Rekonstruktionstails kÃ¶nnen dadurch begÃ¼nstigt
+werden und GSD-Momente stark verschieben. Die Root-Studie untersucht diese
+Hypothese zusÃ¤tzlich mit gespeicherten unzensierten synthetischen Gaussian-
+Werten; das sind keine behaupteten negativen physischen CPC-ZÃ¤hlungen.
+
+Die aktuelle stationÃ¤re Transferfunktion hat im vorhandenen Plug-Flow-Modell
+eine mittlere Aufenthaltszeit von 17.267 s. Diese ist weder eine gemessene
+Ansprechzeit noch eine pauschale Totzeit pro Scanpunkt. Ein CPC-Ausgabetakt
+von maximal 50 Hz stellt allein keine 50 unabhÃ¤ngigen MesskanÃ¤le pro Sekunde
+bereit. Dynamische Scans mÃ¼ssen die zeitliche Transferantwort, Probenvolumen,
+ZÃ¤hlstatistik, VerzÃ¶gerungen und eine passende Kovarianz berÃ¼cksichtigen.
+Die empirische statische Messdatenstudie liefert deshalb keine Scandauer.

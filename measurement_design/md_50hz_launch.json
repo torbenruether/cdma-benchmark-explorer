@@ -1,0 +1,10 @@
+{
+  "launcherPid": 82568,
+  "startedAt": "2026-10-05T21:22:56.3420949+02:00",
+  "batch": "maxNumCompThreads(1);addpath('C:\\Users\\torbe\\Documents\\MATLAB\\CDMA_benchmark\\POCS_2D_Benchmark\\extended_benchmark\\measurement_design');md_50hz_check();",
+  "logfile": "C:\\Users\\torbe\\Documents\\MATLAB\\CDMA_benchmark\\POCS_2D_Benchmark\\extended_benchmark\\measurement_design\\md_50hz_matlab.log",
+  "purpose": "isolated 50 Hz temporal integration tests; one thread",
+  "matlabPid": 89176,
+  "completedAt": "2026-10-05T21:25:37.8431400+02:00",
+  "state": "completed: 5 consistency tests and quadrature convergence passed; dedicated processes gone"
+}

@@ -1,0 +1,37 @@
+CDMA-SPANNUNGSSCAN MIT MAXIMAL 50 HZ CPC-DATENRATE
+Stand 2026-10-05 21:24:25; MATLAB-Test 85.8 s; 5 Konsistenztests bestanden.
+Nutzervorgabe: maximal 50 Hz, damit minimaler Zeitbin 20 ms. Angepasste dynamische Transferfunktion vorausgesetzt.
+30/60/300/1200 s ergeben maximal 1500/3000/15000/60000 Rohsamples je Drehzahl.
+Keine Anforderung langsamer stationaerer Scans: bei korrektem dynamischem Kernel sind schnelle Scans prinzipiell moeglich.
+50 Hz ist eine Ausgaberate, weder nachgewiesene Antwortbandbreite noch Zahl unabhaengiger Informationen.
+Reale CPC-Antwort, Schlauchverzug und Kalibrierfehler sind hier nicht modelliert.
+20-ms-Integration wurde gegen Punktkernel mit 3/5/9-Punkt-Gaussquadratur verglichen (44 Kontrollen, 3 Monomoden).
+Nullrampenlimit reproduziert statischen Kernel mit rel. Fehler 0.
+  30 s: U-Zunahme je Sample 0.468203%; Punkt-vs-Bin-Signalfehler 0.000342279..0.000805581%; 5-vs-9-Quadratur 1.77e-07..2.21e-07.
+  60 s: U-Zunahme je Sample 0.233828%; Punkt-vs-Bin-Signalfehler 0.000190501..0.000389867%; 5-vs-9-Quadratur 3.69e-08..1.03e-07.
+ 300 s: U-Zunahme je Sample 0.046722%; Punkt-vs-Bin-Signalfehler 6.09796e-06..3.18203e-05%; 5-vs-9-Quadratur 6.2e-09..2.93e-08.
+1200 s: U-Zunahme je Sample 0.011678%; Punkt-vs-Bin-Signalfehler 5.27823e-07..5.80408e-07%; 5-vs-9-Quadratur 2.43e-10..4.61e-10.
+Im vorhandenen Idealmodell ist die reine 20-ms-Binmittelung klein; das ersetzt keine reale CPC-Dynamikpruefung.
+Die Verweilzeit von 17.267148 s betrifft Vorgeschichte und dynamische Trajektorie, nicht automatisch die minimale Samplingperiode.
+Zaehlstatistik: Q=5.000 cm^3/s. Je 20 ms werden ideal lambda=0.100*c Counts erwartet (c nach Klassierung).
+3% reines Poisson-sigma verlangt 1112 Counts; 5% verlangt 400 Counts, ggf. ueber mehrere Samples aggregieren.
+Dabei muessen dynamischer Kernel und Expositionszeit ebenfalls ueber die aggregierten Bins integriert werden.
+Dichte Zeitabtastung erhoeht nicht beliebig den geometrischen Rang; mehrere Drehzahlen und 2D-Abdeckung bleiben entscheidend.
+
+SPANNUNGSGEBUNDENE DATEN UND ZEITBEZUG
+Die Messdaten sind laut Nutzer wie beim SMPS bereits einer Spannung zugeordnet.
+Eine Datenzeile hat den Bezug (U_assigned, Omega, y, Delta_t, Zeitstempel, Scanrichtung).
+Das ist ein gueltiger Index fuer den dynamischen Kernel; es wird NICHT angenommen,
+dass nur Zeitstempel ohne Spannungswerte vorliegen. Der Kernel muss dieselbe reale
+Spannungszuordnung und den unabhaengig kalibrierten Mess-/Transportzeitverzug verwenden.
+Die Spannungszuordnung allein macht die Transferfunktion nicht instantan stationaer.
+U_out bezeichnet ausschliesslich die eigene Konvention dieses idealen Tests;
+sie schreibt keine Zuordnung fuer die reale SMPS-artige Hardwareausgabe vor.
+Angepasste reale Transferfunktion, U(t)-Vorgeschichte und ggf. Detektorkalibrierung
+koennen diese Zuordnung konsistent abbilden; ein zusaetzlicher fixer Verzug wird nicht geraten.
+Schemabeispiel (keine reale Messung): U_assigned=123 V, Omega=10 Hz,
+y=120 #/cm^3, Delta_t=0.02 s, Zeitstempel=2026-10-05T21:00:00+02:00, Richtung=up.
+Bei Rohcounts werden Counts, Live-Zeit und Sensorfluss zusaetzlich gespeichert.
+Die Poisson-Erwartung entsteht durch Integration des dynamischen Kernels ueber
+das Messintervall bei der zur Spannungszuordnung passenden U(t)-Historie.
+Maschinenlesbares Beispiel: md_50hz_metadata_schema.json.
