@@ -1,0 +1,58 @@
+CDMA v9: GEPRUEFTE ABSCHLUSSBEURTEILUNG (2026-10-07)
+
+297/297 Laeufe abgeschlossen, 27 Datensaetze x11 Verfahren, keine Ausfuehrungsfehler.
+Laufzeit rund20h39min; 1224 stationaere Messwerte;64 Bins/Dekade pro Achse.
+Lognormal-fit laeuft mit, bleibt aus Bewertung, Ranking und Bestenauswahl ausgeschlossen.
+270 bewertete Laeufe:154 numerisch, in Datenpassung und Parameterwahl validiert.
+26 davon bestehen alle Ziele: N, beide GMD und GSD jeweils <=5%; flaechengewichteter 2D-L2<=20%.
+Mindestens ein geeignetes Verfahren besteht alle Ziele in11/27 Datensaetzen.
+
+Verfahren          | Validiert/27 | Alle Ziele/27 | Median2D-L2 nur validierter Teilmenge
+Tikhonov           | 25           | 7             | 15.9%
+Tikhonov-lsqlin     | 23           | 5             | 18.4%
+Bayesian GP-MAP    | 18           | 4             | 19.8%
+TGV2-ADMM          | 7            | 3             | 11.6%
+Maximum Entropy    | 21           | 3             | 36.6%
+POCS-PSS           | 21           | 2             | 46.8%
+Twomey-Markowski   | 21           | 2             | 37.9%
+POCS-CDMA          | 18           | 0             | 76.8%
+TV-2D              | 0            | 0             | --
+Huber-TV           | 0            | 0             | --
+
+Mediane verwenden unterschiedliche gueltige Teilmengen, kein fairer alleiniger Rankingmassstab.
+Tikhonov liefert die robusteste Gesamtleistung:25/27 validiert und die meisten Zieltreffer.
+lsqlin ist ein anderer Optimierungsweg derselben Tikhonov-Zielfunktion, keine weitere Regularisierung.
+GP-MAP ist eine interessante Alternative; TGV kann gute Rekonstruktionen liefern, ist zu unzuverlaessig.
+POCS-Nebenbedingungen sind eingehalten, garantieren allein jedoch keine korrekte Verteilung.
+TV erreicht nur1/27 zertifizierte Stationaritaet; TV und Huber besitzen keine abgesicherte Parameterwahl.
+
+BEISPIEL ds00014: GMD dm/dst=315/60nm;GSD=1.30;N=1e5#/cm3;rel/abs sigma=3/3%.
+GP-MAP: validiert, alle Ziele bestanden. L2=12.18%,N-Fehler=0.72%,GMD-Fehler=0.51/0.87%,
+GSD-Fehler=3.93/4.75%.
+TGV: validiert, alle Ziele bestanden. L2=11.59%,N-Fehler=0.32%,GMD-Fehler=0.14/1.22%,
+GSD-Fehler=1.97/3.83%.
+Tikhonov: validiert,L2=10.45%,N-Fehler=0.81%;GSD_dst-Fehler=5.46% verfehlt ein Ziel knapp.
+POCS-PSS: validiert,L2=39.77%;POCS-CDMA: validiert,L2=72.85%.
+Die nachtraegliche Sollbewertung wurde nicht zur Regularisierungsparameterwahl benutzt.
+
+GRENZEN UND FEHLERURSACHEN
+Bei absolutem sigma=5% des Signalmaximums besteht keiner der neun Datensaetze alle Ziele.
+154 validiert bedeutet nicht154 fachlich genaue Rekonstruktionen.
+Primaere Gruppen der270 bewerteten Laeufe:154 validiert,78 ohne bestaetigten numerischen
+Stationaritaetsnachweis,36 ohne abgesicherte Parameterwahl,2 konvergiert aber nicht datenvertraeglich.
+ConstraintViolation und ForbiddenN_cm3 sind in allen gespeicherten CSV-Ergebnissen null:
+Nichtnegativitaet und dst<=dm sind nicht die Ursache dieser Guetefehler.
+DataCompatible prueft verfahrensabhaengig Diskrepanz oder bei POCS-CDMA simultane Messbaender;
+ein chi2 nahe1 ist daher kein einheitliches Kompatibilitaetskriterium aller Verfahren.
+Eine feste Rauschrealisierung je Fall, drei Monomoden, additive vorzeichenbehaftete Gaussfehler.
+Relative und peakbezogen absolute sigma-Stufen0/3/5%;kein gemeinsamer Kalibrierbias/Poissonrauschen.
+Die27 Hauptdatensaetze verwenden identische Vorwaerts-/Inversionsdiskretisierung:Konsistenztest.
+Separater feinerer Vorwaertsvergleich:128 statt64 Bins/Dekade,15 Einstellungen;Signal-L2-Differenz
+0.0808--0.0946%. Dies ist keine volle Rekonstruktionspruefung mit feinerem Vorwaertsraster.
+Keine allgemeine Solver-/Messpunktgarantie fuer reale Aerosole oder Bi-/Trimoden ableitbar.
+
+QUELLEN UND PRUEFUNG
+solver_revision_v9/outputs/factorial27_1224/results.csv und MAT-Loesungen;
+solver_revision_v9/RUN_RESULTS_REPORT.txt;convergence_audit.csv;fine_forward_audit.csv.
+Abschliessender Export/Validierung um08:24:16 erfolgreich;unabhaengige Abschlussbeurteilung
+bestaetigt Zaehler,Nebenbedingungen und ausgewaehlte Guetemetriken.

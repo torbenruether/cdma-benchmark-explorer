@@ -69,3 +69,24 @@ Tikhonov-lsqlin additionally requires the same strict feasible-dual gap as the m
 An unreachable-discrepancy dispatch fixture selected alpha~3e10; identical numerical optima yielded a conservative uncertified dual bound for lsqlin. Its diagnostic/log are retained. A reachable moderate-crossing fixture passed independently; no tolerance was relaxed.
 Limited fine-forward audit: 15 settings, 128 versus64 bins/decade; relative signal differences0.08076..0.09461 percent. This is a model check, not a full fine-grid reconstruction benchmark.
 Sources frozen for new27x11 production run. Existing old large output payloads physically retained due automatic approval rejection of deletion, superseded in active website.
+
+
+ACTUAL EXECUTION RESULTS
+CDMA v9 -- complete -- 2026-10-07 08:24:06
+Saved 297 / 297 solver runs; Lognormal-fit excluded from assessment.
+Execution errors: 0. Objective converged: 219. Data compatible: 259. Parameter selection valid: 206.
+Validated excluding fit: 154. All accuracy targets AND validation excluding fit: 26.
+Accuracy goals: N, both GMD and both GSD relative errors <=5%; area-weighted 2D relative L2 <=20%.
+Identical forward/inverse grid is an idealised consistency test; fine-forward audit is separate.
+POCS-PSS: saved=27, executionErrors=0, optimum=21, data=27, parameter=27, validated=21, targetPass=2, boundary=0
+Twomey-Markowski: saved=27, executionErrors=0, optimum=21, data=21, parameter=27, validated=21, targetPass=2, boundary=0
+Tikhonov: saved=27, executionErrors=0, optimum=26, data=27, parameter=25, validated=25, targetPass=7, boundary=0
+Tikhonov-lsqlin: saved=27, executionErrors=0, optimum=23, data=27, parameter=25, validated=23, targetPass=5, boundary=0
+Lognormal-fit: saved=27, executionErrors=0, optimum=27, data=27, parameter=27, validated=0, targetPass=0, boundary=0
+TGV2-ADMM: saved=27, executionErrors=0, optimum=21, data=19, parameter=9, validated=7, targetPass=3, boundary=12
+TV-2D: saved=27, executionErrors=0, optimum=1, data=21, parameter=0, validated=0, targetPass=0, boundary=11
+Maximum Entropy: saved=27, executionErrors=0, optimum=22, data=27, parameter=21, validated=21, targetPass=3, boundary=0
+Bayesian GP-MAP: saved=27, executionErrors=0, optimum=18, data=18, parameter=18, validated=18, targetPass=4, boundary=9
+Huber-TV: saved=27, executionErrors=0, optimum=21, data=27, parameter=0, validated=0, targetPass=0, boundary=0
+POCS-CDMA: saved=27, executionErrors=0, optimum=18, data=18, parameter=27, validated=18, targetPass=0, boundary=0
+Do not treat numerical convergence, data compatibility or a fitted monomodal shape as proof of scientific accuracy.
